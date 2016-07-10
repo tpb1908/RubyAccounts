@@ -1,4 +1,34 @@
 <h1>Test app with logins</h1>
-<p>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</p>
+
+<div class="panel panel-default">
+    <div class="panel-header">
+        <div class="container" id="header_container">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="language_dropdown" data-toggle="dropdown" arai-haspopup="true">
+                    Language
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="language_dropdown">
+                    <li><a>English</a></li>
+                    <li><a>Not English</a></li>
+                    <li><a>Also not English</a></li>
+                </ul>
+            </div>
+            <% if logged_in? %>
+                <div>           
+                    <%= render 'users/user_button', :user => current_user %>
+                </div>
+             <%else%>       
+                <div >
+                    <%= link_to "Sign up now!", signup_path, class: "btn btn-primary" %>
+                </div>
+            <%end%>
+        </div>
+    </div>
+    <div class="panel-body">Content</div>
+    <div class="panel-footer">
+        Analysis goes here
+    </div>
+</div>
+
+
