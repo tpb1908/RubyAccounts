@@ -19,8 +19,9 @@
                     <%= render 'users/user_button', :user => current_user %>
                 </div>
              <%else%>       
-                <div >
-                    <%= link_to "Sign up now!", signup_path, class: "btn btn-primary" %>
+                <div class="btn-group" role="group">
+                    <%= link_to "Log in", login_path, class: "btn btn-success" %>
+                    <%= link_to "Sign up", signup_path, class: "btn btn-primary" %>
                 </div>
             <%end%>
         </div>
