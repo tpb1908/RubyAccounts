@@ -5,8 +5,14 @@ test1:
     email: test1@test.com
     password_digest: <%= User.digest('password') %>
     admin: true
+    activated: true
+    activated_at: <%= Time.zone.now %>
+    #The authenticator checks if digest is nil
+    activation_digest: "<%= User.digest User.new_token %>"
 
 test2:
     name: Test User2
     email: test2@test.com
     password_digest: <%= User.digest('password') %>    
+    activated: true
+    activated_at: <%= Time.zone.now %>
