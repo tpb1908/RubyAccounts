@@ -2,6 +2,46 @@
 <h1> All users </h1>
 
 <%= will_paginate %>
+<div class="input-group">
+
+    <input type="search" class="form-control" placeholder="Search by username">
+        <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    Search
+                    <!--<span class="glyphicon glyphicon-search"></span>-->
+                </button>
+
+        </span> 
+        <div class="input-group-btn">   
+        
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort by
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">WPM</a></li>
+                <li><a href="#">Accuracy</a></li>
+                <li><a href="#">Tests taken</a></li>
+                <li><a href="#">Date created: Newest</a></li>
+                <li><a href="#">Date created: Oldest</a></li>
+            </ul>
+        </div>
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Time period
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">All time</a></li>
+                <li><a href="#">Last year</a></li>
+                <li><a href="#">Last month</a></li>
+                <li><a href="#">Last week</a></li>
+                <li><a href="#">Last 24 hours</a></li>
+            </ul>
+        </div>
+
+    </input>
+</div>
 
 <ul class="users">
     <%= render @users %>
