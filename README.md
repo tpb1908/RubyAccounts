@@ -21,10 +21,10 @@ TODO-
 * Test models
 * Word sets
 * Also needs:
-** Language
-** Keyboard layout
-** Average score
-**
+  * Language
+  * Keyboard layout
+  * Average score
+
 
 * Result model-
 * Has one test model
@@ -39,11 +39,11 @@ TODO-
 * Test model-
 * Has one word set (The array of words used)
 * Number of other parameters:
-** Average score
-** Distribution of scores- Threshold for each percent
-** No. times taken
-** Top score
-** Boolean, system or user
+  * Average score
+  * Distribution of scores- Threshold for each percent
+  * No. times taken
+  * Top score
+  * Boolean, system or user
 
 
 * Word set model-
