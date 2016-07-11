@@ -1,29 +1,35 @@
+<% provide(:title, "Home") %>
+
 <h1>Take a typing test</h1>
 
 <div class="panel panel-default">
     <div class="panel-header">
-        <div class="container" id="header_container">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="language_dropdown" data-toggle="dropdown" arai-haspopup="true">
-                    Language
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="language_dropdown">
-                    <li><a>English</a></li>
-                    <li><a>Not English</a></li>
-                    <li><a>Also not English</a></li>
-                </ul>
+        <div class="panel-heading row">
+            <div class="col-xs-6">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="language_dropdown" data-toggle="dropdown" arai-haspopup="true">
+                        Language
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="language_dropdown">
+                        <li><a>English</a></li>
+                        <li><a>Not English</a></li>
+                        <li><a>Also not English</a></li>
+                    </ul>
+                </div>
             </div>
-            <% if logged_in? %>
-                <div>           
-                    <%= render 'users/user_button', :user => current_user %>
-                </div>
-             <%else%>       
-                <div class="btn-group" role="group">
-                    <%= link_to "Log in", login_path, class: "btn btn-success" %>
-                    <%= link_to "Sign up", signup_path, class: "btn btn-primary" %>
-                </div>
-            <%end%>
+            <div class="col-xs-6">
+                <% if logged_in? %>
+                    <div>           
+                        <%= render 'users/user_button', :user => current_user %>
+                    </div>
+                 <%else%>       
+                    <div id ="sign_in_up_buttons" class="btn-group" role="group">
+                        <%= link_to "Log in", login_path, class: "btn btn-success" %>
+                        <%= link_to "Sign up", signup_path, class: "btn btn-primary" %>
+                    </div>
+                <%end%>
+            </div>
         </div>
     </div>
     <div class="panel-body">
