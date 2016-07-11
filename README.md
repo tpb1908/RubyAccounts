@@ -6,7 +6,7 @@ Done so far-
 * Updating and deleting users
 * Email authentication for user accounts
 * Password reset for user accounts
-*Responsive design for mobile
+* Responsive design for mobile
 
 TODO-
 
@@ -51,3 +51,12 @@ TODO-
 * Word values can either be stored here, or computed elsewhere
 
 
+| User | Word set | Test |
+| ---- | -------- | ---- |
+| id | id | id |
+| name | owner- user id or system | language | user id |
+| remember token & digest | the words | test parameters |
+| activation token & digest | date created | cpm -> WPM |
+| reset token & digest | public or private | actual WPM |
+| reset sent time | use of special characters (For filtering) | delta array |
+| email-downcase | name | sorted array of average deltas |
