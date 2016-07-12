@@ -45,6 +45,7 @@ GEM
       sass (~> 3.2)
     bootstrap-will_paginate (0.0.10)
       will_paginate
+    bower-rails (0.10.0)
     builder (3.2.2)
     byebug (9.0.5)
     coffee-rails (4.2.1)
@@ -173,6 +174,7 @@ DEPENDENCIES
   bcrypt (= 3.1.11)
   bootstrap-sass (= 3.2.0.2)
   bootstrap-will_paginate (= 0.0.10)
+  bower-rails
   byebug
   coffee-rails (~> 4.2)
   faker (= 1.6.3)
