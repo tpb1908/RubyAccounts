@@ -154,10 +154,12 @@ aside {
 #sign_in_up_buttons {
   float: right;
   white-space: nowrap;
+  font-size: 0;
   .btn {
-    margin: 0;
-    display: inline-block;
+    display: inline-block;;
+    font-size: 14px;
     float: none;
+    clear: none;
   }
 }
 
