@@ -12,6 +12,12 @@ Reference-
 Activate all users from console - User.all.each do |n| n.update_attribute(:activated, true) end
 
 
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 TODO-
 
 * Models for-
