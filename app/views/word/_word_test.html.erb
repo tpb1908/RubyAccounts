@@ -185,8 +185,8 @@
 
     $("#input").keydown(function(e) {
         var key = e.which;
+        alert("Key pressed: " + key);
         if(key === 32) {
-            alert("Space pressed");
             e.preventDefault();
             nextWord();
         } else if(key === 8) {
