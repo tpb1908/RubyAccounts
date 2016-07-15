@@ -14,7 +14,12 @@
       ga('create', 'UA-80625972-1', 'typinganalysis.herokuapp.com');
       ga('send', 'pageview');
 
-      
+      $(document).on('turbolinks:load', function() {
+        console.log("Page load");
+        console.log("Location:  " + $(location).attr('href'));
+        ga('set', 'page', $(location).attr('href'));
+        ga('send', 'pageview');
+      });
   </script>
 
 </footer>
