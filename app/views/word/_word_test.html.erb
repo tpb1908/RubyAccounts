@@ -185,37 +185,35 @@
 
     $("#input").keydown(function(e) {
         var key = e.keyCode;
-        alert("Key code: " + key)
-        //console.log(e.keyCode);
         if(key === 229) {
-            //killEvent(e);
-            return;
-        } else {
-            //alert("Key pressed: " + key);
-            if(key === 32) {
-                e.preventDefault();
-                nextWord();
-            } else if(key === 8) {
-                if(input.value === "" && lastKey === 8) {
-                    previousWord();
-                }
-            }
-            lastKey = key;
+            var inputVal = input.value;
+            key = inputVal.charCodeAt(inputVal.length - 1);
         }
+        //alert("Key pressed: " + key);
+        if(key === 32) {
+            e.preventDefault();
+            nextWord();
+        } else if(key === 8) {
+            if(input.value === "" && lastKey === 8) {
+                previousWord();
+            }
+        }
+        lastKey = key;
+    
 
     });
 
     $("#input").keyup(function(e) {
-        if(e.keyCode === 229) {
-            //killEvent(e);
-            return;
-        } else {
-            if(e.keyCode === 32 && input.value === " ") {
-                input.value = "";
-            } else {
-                setColor(false);
-            }
+        if(key === 229) {
+            var inputVal = input.value;
+            key = inputVal.charCodeAt(inputVal.length - 1);
         }
+        if(e.keyCode === 32 && input.value === " ") {
+            input.value = "";
+        } else {
+            setColor(false);
+        }
+        
     });
 
     addWords();
