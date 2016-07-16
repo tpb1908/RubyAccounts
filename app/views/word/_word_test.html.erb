@@ -195,7 +195,7 @@
         setColor(false);
     }
 
-    $("#input").keydown(function(e) {
+    document.onkeydown = function(e) {
         var key = e.which;
         if(key === 229) {
             if(input.length < lastLength) { //Backspace
@@ -223,7 +223,7 @@
         lastKey = key;
         lastLength = input.length;
     
-    });
+    };
 
     //http://stackoverflow.com/a/5926068/4191572
     var rtime;
