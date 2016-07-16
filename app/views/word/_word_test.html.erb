@@ -211,8 +211,13 @@
         A mix must be used
     */
 
+    input.onkeypress = function(e) {
+        alert("Key press: " + e.which);
+    } 
 
     input.onkeydown = function(e) {
+        return;
+        console.log("Key down");
         var key = e.which;
         if(key === 229) {
             return;
