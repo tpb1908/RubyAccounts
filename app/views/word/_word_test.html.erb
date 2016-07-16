@@ -80,6 +80,7 @@
     var wordIndex = 0;
     var input = document.getElementById("input");
     var lastKey = -1;
+    var lastLength = 0;
     var nextMovePosition = 0;
     var positionForDeletion = 0;
     var endLineQueue = [];
@@ -148,10 +149,50 @@
         }
     }
 
+
+
+    function setColor(complete) {
+        var text = input.value;
+        text = trim(text);
+        input.value = text;
+        $("#word_container").find("[num="+wordIndex+"]").css('color',"#000000");
+        if(complete) {
+            console.log("Checking complete word");
+            console.log("Word: " + wordSet[wordIndex] + " Typed: " + text);
+            if(text === wordSet[wordIndex]) {
+                $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
+                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
+            } else {
+                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
+            }
+        } else {
+            console.log("Checking incomplete word");
+            if(wordSet[wordIndex].indexOf(text) === 0) { //Correct so far
+                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
+            } else {
+                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
+            }           
+        }
+    }
+
+    function trim(string) {
+        for(var i = string.length-1; i >=0; i++) {
+            if(string.charAt(i) === " ") {
+                string = string.slice(0, i);
+            } else {
+                break;
+            }
+        }
+        return string;
+    }
+
     function nextWord() {
         if(input.value !== " ") {
+            console.log("Next word");
             setColor(true);
-            wordIndex ++;
+            wordIndex++;
+            lastLength = 0;
+            console.log("Resetting with value of " + input.value);
             input.value = "";
             setColor(false);
             move();
@@ -161,59 +202,39 @@
     function previousWord() {
         $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
         wordIndex--;
-    }
-
-    function setColor(complete) {
-        input.value = input.value.replace(/^\s+/g, "");
-        var text = input.value;
-        $("#word_container").find("[num="+wordIndex+"]").css('color',"#000000");
-        if(complete) {
-            if(text === wordSet[wordIndex]) {
-                $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
-                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
-            } else {
-                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-            }
-        } else {
-            if(wordSet[wordIndex].indexOf(text) === 0) { //Correct so far
-                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
-            } else {
-                $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-            }           
-        }
+        setColor(false);
     }
 
     $("#input").keydown(function(e) {
-        var key = e.keyCode;
+        var key = e.which;
         if(key === 229) {
-            var inputVal = input.value;
-            key = inputVal.charCodeAt(inputVal.length - 1);
+            if(input.length < lastLength) { //Backspace
+                key = 32;
+            } else {
+                var inputVal = input.value;
+                key = inputVal.charCodeAt(inputVal.length - 1);
+            }
         }
-        //alert("Key pressed: " + key);
         if(key === 32) {
-            e.preventDefault();
-            nextWord();
-        } else if(key === 8) {
+            if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
+                console.log("Resetting word");
+                input.value = "";
+            } else { //Move forward
+                //e.preventDefault();
+                setColor(true); //We are complete
+                nextWord();
+            }
+        } else if(key === 8) { //Backspace
+            console.log("Backspace");
             if(input.value === "" && lastKey === 8) {
                 previousWord();
             }
-        }
-        lastKey = key;
-
-    });
-
-    $("#input").keyup(function(e) {
-        var key = e.which;
-        if(key === 229) {
-            var inputVal = input.value;
-            key = inputVal.charCodeAt(inputVal.length - 1);
-        }
-        if(key === 32 && input.value === " ") {
-            input.value = "";
         } else {
             setColor(false);
         }
-        
+        lastKey = key;
+        lastLength = input.length;
+    
     });
 
     addWords();
