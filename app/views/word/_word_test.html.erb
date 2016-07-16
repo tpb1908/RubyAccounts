@@ -112,26 +112,23 @@
         }
         document.getElementById("word_container").innerHTML = spans;
         computeBoundaries();
-        positionForDeletion = endLineQueue.shift();
-        nextMovePosition = endLineQueue.shift();
     }
 
     function computeBoundaries() {
+        endLineQueue = [];
         var wordContainer = $("#word_container");
-        var boxWidth = wordContainer.innerWidth();
-        console.log("Box width: " + boxWidth);
-        var widthSum = 0;
+        var previousTop = 0;
         for(var i = 0; i < wordSet.length; i++) {
-            //This is required
-            var width = wordContainer.find("[num="+i+"]")[0].getBoundingClientRect().width;
-            widthSum += width;
-            console.log("Span width: " + width);
-            if(widthSum >= boxWidth) {
-                endLineQueue.push(i);
-                widthSum = 0;
+            var top = wordContainer.find("[num="+i+"]").offset().top;
+            if(top > previousTop) {
+                endLineQueue.push(i-1);
+                previousTop = top;
             }
         }
+        endLineQueue.shift() //Removing -1
         console.log("End line values: " + endLineQueue);
+        positionForDeletion = endLineQueue.shift();
+        nextMovePosition = endLineQueue.shift();
     }
 
     function computePositionForNextMovement() {
@@ -242,9 +239,26 @@
     
     });
 
+    //http://stackoverflow.com/a/5926068/4191572
+    var rtime;
+    var timeout = false;
+    var delta = 200;
     $(window).resize(function() {
-        computeBoundaries();
+        rtime = new Date();
+        if (timeout === false) {
+            timeout = true;
+            setTimeout(resizeend, delta);
+        }
     });
+
+    function resizeend() {
+        if (new Date() - rtime < delta) {
+            setTimeout(resizeend, delta);
+        } else {
+            timeout = false;
+            computeBoundaries();
+        }               
+    }
 
     addWords();
 
