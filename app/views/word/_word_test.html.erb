@@ -107,24 +107,31 @@
     function addWords() {
         wordSet = shuffle(words);
         var spans = "";
-        var wordContainer = $("#word_container")
         for(var i = 0; i < wordSet.length; i++) {
             spans += "<span num="+i+">" + words[i] + "</span>";
         }
         document.getElementById("word_container").innerHTML = spans;
-        var boxWidth = wordContainer.innerWidth;
+        computeBoundaries();
+        positionForDeletion = endLineQueue.shift();
+        nextMovePosition = endLineQueue.shift();
+    }
+
+    function computeBoundaries() {
+        var wordContainer = $("#word_container");
+        var boxWidth = wordContainer.innerWidth();
+        console.log("Box width: " + boxWidth);
         var widthSum = 0;
         for(var i = 0; i < wordSet.length; i++) {
-            var span = wordContainer.find("[num="+i+"]");
-            widthSum += span.width() + span.outerWidth();
-            if(widthSum > boxWidth) {
-                endLineQueue.push(i+1);
+            //This is required
+            var width = wordContainer.find("[num="+i+"]")[0].getBoundingClientRect().width;
+            widthSum += width;
+            console.log("Span width: " + width);
+            if(widthSum >= boxWidth) {
+                endLineQueue.push(i);
                 widthSum = 0;
             }
         }
-        positionForDeletion = endLineQueue.shift();
-        console.log("End line values " + endLineQueue);
-        nextMovePosition = endLineQueue.shift();
+        console.log("End line values: " + endLineQueue);
     }
 
     function computePositionForNextMovement() {
@@ -148,8 +155,6 @@
             computePositionForNextMovement();
         }
     }
-
-
 
     function setColor(complete) {
         var text = input.value;
@@ -235,6 +240,10 @@
         lastKey = key;
         lastLength = input.length;
     
+    });
+
+    $(window).resize(function() {
+        computeBoundaries();
     });
 
     addWords();
