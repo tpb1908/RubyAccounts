@@ -3,7 +3,7 @@
         
     </div>
     <div class="input group input-group-lg">
-        <input type="text" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="input" placeholder="Type here"></input>
+        <input type="text" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"id="input" placeholder="Type here"></input>
     </div>
 </div>
 <div class="panel-footer">
@@ -149,7 +149,7 @@
             }
         } else {
             //console.log("Checking incomplete word");
-            if(wordSet[wordIndex].indexOf(text) === 0) { //Correct so far
+            if(checkError()) { //Correct so far
                 $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
             } else {
                 $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
@@ -158,14 +158,24 @@
     }
 
     function trim(string) {
-        // for(var i = string.length-1; i >=0; i++) {
-        //     if(string.charAt(i) === " ") {
-        //         string = string.slice(0, i);
-        //     } else {
-        //         break;
-        //     }
-        // }
-        return string.trim();
+        for(var i = string.length-1; i >=0; i++) {
+             if(string.charAt(i) === " ") {
+                 string = string.slice(0, i);
+             } else {
+                 break;
+             }
+         }
+        return string;
+    }
+
+    function checkError() {
+        var text = input.value;
+        var required = wordSet[wordIndex];
+        for(var i = 0; i < text.length; i++) {
+            console.log("Comparing " + text.charAt(i) + " to " + required.charAt(i));
+            if(text.charAt(i) !== required.charAt(i)) return false;
+        }
+        return true;
     }
 
     function removeLine() {
@@ -195,15 +205,26 @@
         setColor(false);
     }
 
+    /*
+    *   Many of the checks can't happen until the key has been inserted
+        but if we use onkeyup, it is not fast enough.
+        A mix must be used
+    */
+
+
     input.onkeydown = function(e) {
         var key = e.which;
+        e.preventDefault();
+        input.value = input.value + String.fromCharCode(e.keyCode);
         if(key === 229) {
-            if(input.length < lastLength) { //Backspace
-                key = 32;
-            } else {
-                var inputVal = input.value;
-                key = inputVal.charCodeAt(inputVal.length - 1);
-            }
+            killEvent(e);
+            return;
+            // if(input.length < lastLength) { //Backspace
+            //     key = 32;
+            // } else {
+            //     var inputVal = input.value;
+            //     key = inputVal.charCodeAt(inputVal.length - 1);
+            // }
         }
         if(key === 32) {
             if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
