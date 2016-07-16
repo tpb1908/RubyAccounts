@@ -214,8 +214,6 @@
 
     input.onkeydown = function(e) {
         var key = e.which;
-        e.preventDefault();
-        input.value = input.value + String.fromCharCode(e.keyCode);
         if(key === 229) {
             killEvent(e);
             return;
