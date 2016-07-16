@@ -158,14 +158,14 @@
     }
 
     function trim(string) {
-        for(var i = string.length-1; i >=0; i++) {
-            if(string.charAt(i) === " ") {
-                string = string.slice(0, i);
-            } else {
-                break;
-            }
-        }
-        return string;
+        // for(var i = string.length-1; i >=0; i++) {
+        //     if(string.charAt(i) === " ") {
+        //         string = string.slice(0, i);
+        //     } else {
+        //         break;
+        //     }
+        // }
+        return string.trim();
     }
 
     function removeLine() {
@@ -195,7 +195,7 @@
         setColor(false);
     }
 
-    document.onkeydown = function(e) {
+    input.onkeydown = function(e) {
         var key = e.which;
         if(key === 229) {
             if(input.length < lastLength) { //Backspace
