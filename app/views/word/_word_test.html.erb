@@ -129,28 +129,8 @@
         console.log("End line values: " + endLineQueue);
         positionForDeletion = endLineQueue.shift();
         nextMovePosition = endLineQueue.shift();
-    }
-
-    function computePositionForNextMovement() {
-        if(wordIndex >= nextMovePosition) {
-            nextMovePosition = endLineQueue.shift();
-        }
-    }
-
-    function removeCurrentLine() {
-        while($("#word_container").find("[num="+positionForDeletion+"]").length > 0) {
-            $("#word_container").find("[num="+positionForDeletion+"]").remove();
-        }
-        positionForDeletion = wordIndex;
-    }
-
-    function move() {
-        if(wordIndex - 1 === nextMovePosition) {
-            if(nextMovePosition !== 0) {
-                removeCurrentLine();
-            }
-            computePositionForNextMovement();
-        }
+        console.log("Position to delete from: " + positionForDeletion);
+        console.log("Position for next movement: " + nextMovePosition);
     }
 
     function setColor(complete) {
@@ -159,8 +139,8 @@
         input.value = text;
         $("#word_container").find("[num="+wordIndex+"]").css('color',"#000000");
         if(complete) {
-            console.log("Checking complete word");
-            console.log("Word: " + wordSet[wordIndex] + " Typed: " + text);
+            //console.log("Checking complete word");
+            //console.log("Word: " + wordSet[wordIndex] + " Typed: " + text);
             if(text === wordSet[wordIndex]) {
                 $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
                 $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
@@ -168,7 +148,7 @@
                 $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
             }
         } else {
-            console.log("Checking incomplete word");
+            //console.log("Checking incomplete word");
             if(wordSet[wordIndex].indexOf(text) === 0) { //Correct so far
                 $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
             } else {
@@ -188,16 +168,24 @@
         return string;
     }
 
+    function removeLine() {
+        while($("#word_container").find("[num="+positionForDeletion+"]").length > 0) {
+            $("#word_container").find("[num="+positionForDeletion--+"]").remove();
+        }
+    }
+
     function nextWord() {
         if(input.value !== " ") {
-            console.log("Next word");
             setColor(true);
             wordIndex++;
             lastLength = 0;
-            console.log("Resetting with value of " + input.value);
             input.value = "";
             setColor(false);
-            move();
+            if(wordIndex - 1 === nextMovePosition) {
+                removeLine();
+                nextMovePosition = endLineQueue.shift();
+                positionForDeletion = wordIndex - 1;
+            }
         }
     }
 
@@ -219,7 +207,6 @@
         }
         if(key === 32) {
             if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
-                console.log("Resetting word");
                 input.value = "";
             } else { //Move forward
                 //e.preventDefault();
@@ -227,7 +214,6 @@
                 nextWord();
             }
         } else if(key === 8) { //Backspace
-            console.log("Backspace");
             if(input.value === "" && lastKey === 8) {
                 previousWord();
             }
