@@ -12,6 +12,7 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-80625972-1', 'typinganalysis.herokuapp.com');
+      ga('set', 'page', $(location).attr('href'));
       ga('send', 'pageview');
 
       $(document).on('turbolinks:load', function() {
