@@ -236,7 +236,7 @@
                 nextWord();
             }
         } else if(key === 8) { //Backspace
-            if(input.value === "" && lastKey === 8) {
+            if(input.value === "" && lastKey === 8 && wordIndex > 0) {
                 previousWord();
             }
         } else {
