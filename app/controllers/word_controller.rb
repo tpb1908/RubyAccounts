@@ -1,4 +1,5 @@
 class WordController < ApplicationController
+    before_action: :logged_in_user , only:[:new, :create, :edit, :destroy]
 
     def create
         @wordset = WordSet.find(params[:id])
@@ -10,10 +11,6 @@ class WordController < ApplicationController
     end
 
     def new
-
-    end
-
-    def create
 
     end
 
