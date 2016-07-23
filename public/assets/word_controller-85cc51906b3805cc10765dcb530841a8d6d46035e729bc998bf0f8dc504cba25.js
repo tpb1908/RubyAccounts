@@ -67,27 +67,28 @@ $(document).on('turbolinks:load', function() {
         "fill", "table", "east", "travel", "weight", "less", "language",
         "morning", "among"];
 
-        var wordSet = [];
-        var wordIndex = 0;
+        var wordSet = []; //The words being used. The words array should only be pulled down once
+        var wordIndex = 0; //The current index
         var input = document.getElementById("input");
-        var lastKey = -1;
-        var lastLength = 0;
-        var nextMovePosition = 0;
-        var positionForDeletion = 0;
-        var endLineQueue = [];
-        var typeStack = [];
-        var androidChrome = false;
+        var lastKey = -1; //The last key that was pressed. Used when moving backwards
+        var lastLength = 0; //Used on Android Chrome to check if a backspace was pressed
+        var nextMovePosition = 0; //The position at which we next move lines
+        var positionForDeletion = 0; //When we move, all positions prior to this are deleted
+        var endLineQueue = []; //The queue of positions which mark the end of a line
+        var typeStack = []; //The stack of words that the user has typed. Used for backtracking, and analysis
+        var androidChrome = false; //Do we have to make a bunch of stupid checks?
 
+        /*
+            Fisher-Yates shuffle
+
+        */
         function shuffle(array) {
             var currentIndex = array.length, temporaryValue, randomIndex;
-
             // While there remain elements to shuffle...
             while (0 !== currentIndex) {
-
                 // Pick a remaining element...
                 randomIndex = Math.floor(Math.random() * currentIndex);
                 currentIndex -= 1;
-
                 // And swap it with the current element.
                 temporaryValue = array[currentIndex];
                 array[currentIndex] = array[randomIndex];
@@ -108,7 +109,6 @@ $(document).on('turbolinks:load', function() {
         }
 
         function computeBoundaries() {
-            alert("Computing boundaries");
             endLineQueue = [];
             var wordContainer = $("#word_container");
             var previousTop = 0;
@@ -193,14 +193,14 @@ $(document).on('turbolinks:load', function() {
             A mix must be used
         */
 
-        $(document).keyup(function(e) {
+        $('#input').keyup(function(e) {
             if(androidChrome) {
                 keyPress(e);
             }
             checkError();
         });
 
-        $(document).keydown(function(e) {
+        $('#input').keydown(function(e) {
             if(e.which === 229) {
                 androidChrome = true;
                 return;
@@ -243,6 +243,7 @@ $(document).on('turbolinks:load', function() {
         var rtime;
         var timeout = false;
         var delta = 200;
+        var windowWidth = $(window).width();
         $(window).resize(function() {
             rtime = new Date();
             if (timeout === false) {
@@ -256,7 +257,10 @@ $(document).on('turbolinks:load', function() {
                 setTimeout(resizeend, delta);
             } else {
                 timeout = false;
-                computeBoundaries();
+                if(windowWidth != $(window).width()) {
+                    computeBoundaries();
+                    windowWidth = $(window).width();
+                }
             }               
         }
 

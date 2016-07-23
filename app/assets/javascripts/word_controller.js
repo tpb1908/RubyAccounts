@@ -193,14 +193,14 @@ $(document).on('turbolinks:load', function() {
             A mix must be used
         */
 
-        $(document).keyup(function(e) {
+        $('#input').keyup(function(e) {
             if(androidChrome) {
                 keyPress(e);
             }
             checkError();
         });
 
-        $(document).keydown(function(e) {
+        $('#input').keydown(function(e) {
             if(e.which === 229) {
                 androidChrome = true;
                 return;
