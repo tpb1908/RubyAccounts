@@ -159,7 +159,7 @@ $(document).on('turbolinks:load', function() {
         function nextWord() {
             if(input.value !== " ") {
                 typeStack.push(input.value);
-                console.log(wordSet[wordIndex] + ", " + input.value);
+                document.getElementById('output').innerHTML = document.getElementById('output').innerHTML + "<br> " + input.value + " " + input.value.length +  ", " + wordSet[wordIndex] + " " + wordSet[wordIndex].length;
                 if(input.value === wordSet[wordIndex]) {
                     $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
                     $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");

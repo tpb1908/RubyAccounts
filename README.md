@@ -21,7 +21,6 @@ Activate all users from console - User.all.each do |n| n.update_attribute(:activ
 TODO-
 
 * Models for-
-* Test data set e.g. the words used
 * Test results
 * Analysis of a users performance
 
@@ -30,10 +29,6 @@ TODO-
 * Result models
 * Test models
 * Word sets
-* Also needs:
-  * Language
-  * Keyboard layout
-  * Average score
 
 
 * Result model-
@@ -55,10 +50,6 @@ TODO-
   * Top score
   * Boolean, system or user
 
-
-* Word set model-
-* Serialized array of text
-* Word values can either be stored here, or computed elsewhere
 
 
 | User | Word set | Test |
