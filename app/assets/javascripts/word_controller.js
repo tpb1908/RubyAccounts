@@ -221,7 +221,11 @@ $(document).on('turbolinks:load', function() {
                 if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
                     input.value = "";
                 } else { //Move forward
-                    e.preventDefault();
+                    if(androidChrome) { //Removing the space
+                        input.value = input.value.slice(0, -1);
+                    } else { //On Android Chrome the keypress has already happened
+                        e.preventDefault();
+                    }
                     nextWord();
                 }
             } else if(key === 8) { //Backspace
