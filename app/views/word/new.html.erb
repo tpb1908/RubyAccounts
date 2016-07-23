@@ -1,14 +1,26 @@
 <% provide(:title, 'Create new test') %>
 
-<h1>New Test<h1>
+<h1>New Test</h1>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <input type="text" class="form-control" placeholder="Title" ></input>
+        <input type="text" class="form-control" placeholder="Title" maxLength="30" ></input>
     </div>
     <div class="panel-body">
-        
-        <textarea class="form-control" rows="10" placeholder="Some text"></textarea>
+        <textarea class="form-control" rows="10" placeholder="Some text" id="words_input"></textarea>
     </div>
-</div>
+    <ul class="list-group" id="new_test_settings">
+        <li class="list-group-item">
+            This text contains special characters
+            <span class="label label-default label-pill pull-xs-right">12</span>
+        </li>
+        <li class="list-group-item"> 
+            <div class="checkbox">
+                <label><input type="checkbox">Display to all users</label>
+            </div>
+        </li>
+        <li class="list-group-item">
+        </li>
+    </ul>
 
+</div>

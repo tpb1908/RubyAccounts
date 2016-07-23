@@ -175,6 +175,8 @@ aside {
   float: left;
 }
 
+
+
 /* forms */
 
 input, textarea, select, .uneditable-input {
@@ -204,11 +206,27 @@ input {
 }
 
 .checkbox {
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom: 10px;
   span {
     margin-left: 20px;
     font-weight: normal;
+  }
+}
+
+#new_test_settings {
+  .checkbox {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    
+    margin-bottom: 0;
+    font-weight: normal;
+    label {
+      padding-left: 0px;
+    }
+    input {
+      width: 28%;
+    }
   }
 }
 
