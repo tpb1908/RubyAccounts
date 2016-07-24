@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  $count = 0;
+
   def new
   end
 
@@ -8,6 +10,8 @@ class SessionsController < ApplicationController
         if user.activated?
           log_in user
           params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+          $count += 1
+          puts 'Count is ' + $count.to_s
           redirect_back_or user
         else
           flash[:warning] = "Account not activated. Check your email for the activation link"
@@ -21,7 +25,11 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out if logged_in?
+    if logged_in?
+      log_out
+      $count -= 1
+      puts 'Count is ' + $count.to_s
+    end
     redirect_to root_url
   end
 
