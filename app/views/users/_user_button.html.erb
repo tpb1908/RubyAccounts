@@ -3,5 +3,15 @@
       <%= gravatar_for user, size: 20 %>
       <%= link_to user.name, user %>
     </li>
-    <p><%= pluralize $count, "user" %> online </p>
+    <p id="users_online"></p>
+
+    <script> 
+        function getUsersOnline() {
+            $.getJSON('sessions_controller/users_online.json', function(data) {
+                $('#users_online').text(data.count);
+            setTimeout(getUsersOnline, 10000);
+            }); 
+        }
+        getUsersOnline();
+    </script>
 </div>

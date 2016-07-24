@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get "word_controller/get", to: 'word#get'
 
+  get "sessions_controller/users_online", to: 'sessions#users_online'
+
   get '/tests/new', to: 'word#new'
 
   root 'static_pages#home'
