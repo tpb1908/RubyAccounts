@@ -10,6 +10,11 @@ module UsersHelper
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id].present?
+  rescue
+    ActiveRecord::RecordNotFound
+        cookies.delete(:user_id)
+        cookies.delete(:remember_token)
+        #redirect_to root_url
   end
-  
+
 end
