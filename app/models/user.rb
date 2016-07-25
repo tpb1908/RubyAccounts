@@ -70,6 +70,7 @@ class User < ApplicationRecord
         def downcase_email
             #Inside the User model, the self is option on the right side
             self.email = email.downcase
+            self.email = email.strip
         end
 
 end
