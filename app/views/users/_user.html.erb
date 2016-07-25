@@ -1,13 +1,13 @@
 <li>
     <div>
         <%= gravatar_for user, size: 50 %>
-        <%= link_to user.name + ", " + user.username.to_s, user %>
+        <%= link_to user.username, user %>
         <% if current_user.admin? && !current_user?(user) %>
             | <%= link_to "delete", user, method: :delete,
                                           data: { confirm: "Are you sure?" } %>
         <% end %>
     </div>
-    <div>  
+    <div id= "user_stats">  
         <p>Tests taken: </p>
         <p>Average speed: </p>
     </div>
