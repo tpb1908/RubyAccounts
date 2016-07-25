@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    attr_accessor :remember_token, :activation_token, :reset_token, :logged_in
+    attr_accessor :remember_token, :activation_token, :reset_token
     before_create :create_activation_digest
 	before_save :downcase_email
 	validates(:name, presence: true, length: { maximum: 50 })
@@ -29,7 +29,7 @@ class User < ApplicationRecord
     end
 
     def forget
-        update_attribute(:remember_digest, nil)
+        update_columns(remember_digest: nil)
     end
 
     #Generalised authentication

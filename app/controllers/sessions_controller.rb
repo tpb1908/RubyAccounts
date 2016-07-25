@@ -6,10 +6,10 @@ class SessionsController < ApplicationController
   def create
   	user = User.find_by(email: params[:session][:email].downcase)
   	if user && user.authenticate(params[:session][:password])
-        if user.activated?
-          if !user.logged_in then $users_online += 1 end #Don't increment the count again if user clears cookies
+        if user.activated?  
           log_in user
           params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+          user.touch
           redirect_back_or user
         else
           flash[:warning] = "Account not activated. Check your email for the activation link"
@@ -25,7 +25,6 @@ class SessionsController < ApplicationController
   def destroy
     if logged_in?
       log_out
-      $users_online -= 1
     end
     redirect_to root_url
   end
