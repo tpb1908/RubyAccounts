@@ -6,6 +6,7 @@
     <p id="users_online"></p>
 
     <script> 
+        //TODO- Ensure that this stops when the test is no longer on screen
         function getUsersOnline() {
             $.getJSON('sessions_controller/users_online.json', function(data) {
                 $('#users_online').text(data.count);
