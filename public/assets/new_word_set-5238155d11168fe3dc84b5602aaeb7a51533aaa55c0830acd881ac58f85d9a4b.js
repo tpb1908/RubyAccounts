@@ -41,3 +41,4 @@ function commonWords(words) {
 	document.getElementById('words').innerHTML = out;
 }
 
+;
