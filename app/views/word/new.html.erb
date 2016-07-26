@@ -1,5 +1,5 @@
 <% provide(:title, 'Create new test') %>
-
+<%= javascript_include_tag 'new_word_set' %>
 <h1>New Test</h1>
 
 <div class="panel panel-default">
@@ -9,10 +9,16 @@
     <div class="panel-body">
         <textarea class="form-control" rows="10" placeholder="Some text" id="words_input"></textarea>
     </div>
-    <ul class="list-group" id="new_test_settings">
+    <ul class="list-group" id="new_test">
         <li class="list-group-item">
-            This text contains special characters
-            <span class="label label-default label-pill pull-xs-right">12</span>
+            Character count
+            <span class="label label-default label-pill pull-xs-right" id="character_count">0</span> <br>
+            Word count
+            <span class="label label-default label-pill pull-xs-right" id="word_count">0</span> <br>
+            Capital count
+            <span class="label label-default label-pill pull-xs-right" id="capital_count">0</span> <br>
+            Special characters
+            <span class="label label-default label-pill pull-xs-right" id="special_count">0</span>
         </li>
         <li class="list-group-item"> 
             <div class="checkbox">
