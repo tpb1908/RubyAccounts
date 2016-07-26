@@ -7,7 +7,7 @@
         <input type="text" class="form-control" placeholder="Title" maxLength="30" ></input>
     </div>
     <div class="panel-body">
-        <textarea class="form-control" rows="10" placeholder="Some text" id="words_input"></textarea>
+        <textarea class="form-control" rows="10" placeholder="Some text" id="words_input" maxlength="10000"></textarea>
     </div>
     <ul class="list-group" id="new_test">
         <li class="list-group-item">
@@ -15,10 +15,19 @@
             <span class="label label-default label-pill pull-xs-right" id="character_count">0</span> <br>
             Word count
             <span class="label label-default label-pill pull-xs-right" id="word_count">0</span> <br>
+            Average word lenth
+            <span class="label label-default label-pill pull-xs-right" id="word_length">0</span> <br>
+            Standard word count
+            <span class="label label-default label-pill pull-xs-right" id="standard_word_count">0</span> <br>
             Capital count
             <span class="label label-default label-pill pull-xs-right" id="capital_count">0</span> <br>
-            Special characters
-            <span class="label label-default label-pill pull-xs-right" id="special_count">0</span>
+            Special character count
+            <span class="label label-default label-pill pull-xs-right" id="special_count">0</span> <br>
+
+            <button class="btn btn-primary" data-toggle="collapse" data-target="#character_explanation">How are these values calculated?</button>
+            <div id="character_explanation" class="collapse">
+                <%= render 'character_value_explanation' %>
+            </div>
         </li>
         <li class="list-group-item" id="words">
             Word Frequency
@@ -29,7 +38,10 @@
             </div>
         </li>
         <li class="list-group-item">
+
         </li>
+
+
     </ul>
 
 </div>
