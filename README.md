@@ -63,4 +63,8 @@ TODO-
 | reset token & digest | public or private | actual WPM:int |
 | reset sent time | use of special characters (For filtering) | delta array |
 | email-downcase | name | sorted array of average deltas |
-| | last update: datetime| 
+| username| last update: datetime| 
+| tests_taken| cpm |
+| average_wpm| language |
+| average_standard_wpm ||
+| owner ||
