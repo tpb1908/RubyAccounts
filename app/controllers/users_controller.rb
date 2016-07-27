@@ -25,7 +25,6 @@ class UsersController < ApplicationController
         @users = @users.order("date ASC", "created_at ASC")
     end
     @users = @users.paginate(page: params[:page])
-
   end
 
   def new

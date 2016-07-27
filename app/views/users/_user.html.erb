@@ -15,7 +15,20 @@
         <% end %>
     </div>
     <div id= "user_stats">  
-        <p>Tests taken: <%= user.tests_taken %></p>
-        <p>Average WPM: <%= user.average_wpm %></p>
+        <table class="table">
+            <tr> 
+                <td><b>Tests taken</b></td>
+                <td><%=user.tests_taken %></td>
+                <td><b>Average WPM</b></td>
+                <td><%=user.average_wpm %></td>
+                
+            </tr>
+            <tr>
+                <td><b>Standard tests taken</b></td>
+                <td><%=user.standard_tests_taken %></td>
+                <td><b>Average standard WPM</b></td>            
+                <td><%=user.average_standard_wpm %></td>
+            </tr>
+        </table>
     </div>
 </li> 
