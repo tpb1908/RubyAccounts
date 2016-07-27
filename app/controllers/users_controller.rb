@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
+  before_action :admin_user, only: [:destroy, :toggle_admin]
 
 
   def show
@@ -10,7 +10,12 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    if(params[:search])
+      puts 'Searching'
+      @users = User.search(params[:search]).paginate(page: params[:page])
+    else
+      @users = User.where(activated: true).paginate(page: params[:page])
+    end
   end
 
   def new
@@ -44,7 +49,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    puts params
+    User.find(params[:user]).destroy
     flash[:success] = "Account deleted"
     redirect_to users_url
   end

@@ -18,6 +18,10 @@ class User < ApplicationRecord
 		BCrypt::Password.create(string, cost: cost)
 	end
 
+    def self.search(search)
+        where("username LIKE ?", "%#{search}%")
+    end
+
     #New random token for cookie
     def User.new_token
         SecureRandom.urlsafe_base64
