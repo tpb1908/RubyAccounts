@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def index
     if(params[:search])
-      @users = User.search(params[:search]).where(activated: true).paginate(page: params[:page])
+      @users = User.search(params[:search]).where(activated: true)
       if @users.length == 0
         flash.now[:danger] = "No users found"
       else 
@@ -24,6 +24,8 @@ class UsersController < ApplicationController
         @users = @users.where("created_at > ", params[:timerange])
         @users = @users.order("date ASC", "created_at ASC")
     end
+    @users = @users.paginate(page: params[:page])
+
   end
 
   def new
