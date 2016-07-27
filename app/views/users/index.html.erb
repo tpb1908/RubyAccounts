@@ -3,7 +3,7 @@
 
 <div class="row">
     <%= form_tag 'users', :method => 'get', class: 'input-group' do %>
-        <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search by username' %>
+        <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search by username', id: "search" %>
         <!-- select_tag  options_for_select(["All time", "Last year", "Last month", "Last week", "Last day"], params[:timespan]), class: "form-control" %>-->
         <span class="input-group-btn">
             <%= submit_tag "Search", class: "btn btn-default" %>

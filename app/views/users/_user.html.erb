@@ -1,6 +1,6 @@
 <li>
     <div id="user_details">
-        <%= gravatar_for user, size: 50 %>
+        <%= gravatar_for user, size: 60 %>
         <%= link_to user.username, user %>
         <% if user.admin? %> 
             <% if user.owner? %>
@@ -14,7 +14,7 @@
             <%= button_to("Delete", {action: :delete, :user => user}, method: :delete, data: { confirm: "Are you sure?"}, class:'btn btn-danger btn-sm', id: "delete_button" )%>
         <% end %>
     </div>
-    <div id= "user_stats">  
+    <div id="user_stats">  
         <table class="table">
             <tr> 
                 <td><b>Tests taken</b></td>
