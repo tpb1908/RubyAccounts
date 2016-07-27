@@ -1,7 +1,7 @@
 class User < ApplicationRecord
     attr_accessor :remember_token, :activation_token, :reset_token
     before_create :create_activation_digest
-	before_save :downcase_email
+	before_save :downcase_email, :check_owner
 	validates(:name, presence: true, length: { maximum: 50 })
     validates(:username, presence: true, length: { maximum: 25 }, uniqueness: { case_sensitive: true })
 	VALIDATE_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -72,6 +72,12 @@ class User < ApplicationRecord
             #Inside the User model, the self is option on the right side
             self.email = email.downcase
             self.email = email.strip
+        end
+
+        def check_owner
+            if self.owner
+                self.admin = true
+            end
         end
 
 end
