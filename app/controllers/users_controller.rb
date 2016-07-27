@@ -11,10 +11,18 @@ class UsersController < ApplicationController
 
   def index
     if(params[:search])
-      puts 'Searching'
-      @users = User.search(params[:search]).paginate(page: params[:page])
+      @users = User.search(params[:search]).where(activated: true).paginate(page: params[:page])
+      if @users.length == 0
+        flash.now[:danger] = "No users found"
+      else 
+        flash.now[:success] = @users.length.to_s + " user".pluralize(@users.length) + " found"
+      end
     else
       @users = User.where(activated: true).paginate(page: params[:page])
+    end
+    if params[:timerange]
+        @users = @users.where("created_at > ", params[:timerange])
+        @users = @users.order("date ASC", "created_at ASC")
     end
   end
 

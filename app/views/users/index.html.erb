@@ -2,8 +2,9 @@
 <h1> All users </h1>
 
 <div class="row">
-    <%= form_tag 'users', :method => 'get', class: 'input-group', id: "search"  do %>
+    <%= form_tag 'users', :method => 'get', class: 'input-group' do %>
         <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search by username' %>
+        <!-- select_tag  options_for_select(["All time", "Last year", "Last month", "Last week", "Last day"], params[:timespan]), class: "form-control" %>-->
         <span class="input-group-btn">
             <%= submit_tag "Search", class: "btn btn-default" %>
         </span>
@@ -46,13 +47,9 @@
         </div>
 
     </input> -->
-<% if @users.present? %>
-    <%= will_paginate %>
-        <ul class="users">
-            <%= render @users %>
-        </ul>
 
-    <%= will_paginate %>
-<% else %>
-    <%= flash.now[:danger] = "No users found" %>
-<% end %>
+<%= will_paginate %>
+    <ul class="users">
+        <%= render @users %>
+    </ul>
+<%= will_paginate %>

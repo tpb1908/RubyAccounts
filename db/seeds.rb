@@ -1,4 +1,4 @@
-20.times do |n|
+200.times do |n|
   name  = Faker::Name.name
   username = Faker::Internet.password(19,20)
   email = "example-#{n+1}@example.com"
