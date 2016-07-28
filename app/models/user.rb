@@ -2,11 +2,12 @@ class User < ApplicationRecord
     attr_accessor :remember_token, :activation_token, :reset_token
     before_create :create_activation_digest
 	before_save :downcase_email, :check_owner
+    validate :unique_username_and_email
 	validates(:name, presence: true, length: { maximum: 50 })
-    validates(:username, presence: true, length: { maximum: 25 }, uniqueness: { case_sensitive: true })
+    validates(:username, presence: true, length: { maximum: 25 }, uniqueness: {case_sensitive: false })
 	VALIDATE_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	validates(:email, presence: true, length: { maximum: 255 }, 
-		format: {with: VALIDATE_EMAIL_REGEX}, uniqueness: { case_sensitive: false })
+        format: {with: VALIDATE_EMAIL_REGEX}, uniqueness: { case_sensitive: false })
 	has_secure_password
 	validates(:password, presence: true, length: { minimum: 6 }, allow_nil: true)
 
@@ -76,6 +77,15 @@ class User < ApplicationRecord
             #Inside the User model, the self is option on the right side
             self.email = email.downcase
             self.email = email.strip
+        end
+
+        def unique_username_and_email
+            self.errors.add(:username, 'already taken') if User.exists?(email: username)
+            self.errors.add(:email, 'already taken') if User.exists?(username: email)
+            puts 'Checking errors '
+            self.errors.each do |n|
+                puts n
+            end
         end
 
         def check_owner
