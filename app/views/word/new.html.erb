@@ -24,7 +24,7 @@
             Special character count
             <span class="label label-default label-pill pull-xs-right" id="special_count">0</span> <br>
 
-            <button class="btn btn-primary" data-toggle="collapse" data-target="#character_explanation">How are these values calculated?</button>
+            <button class="btn btn-primary" data-toggle="collapse" data-target="#character_explanation" id="explanation_button">How are these values calculated?</button>
             <div id="character_explanation" class="collapse">
                 <%= render 'character_value_explanation' %>
             </div>
@@ -33,15 +33,15 @@
             Word Frequency
         </li>
         <li class="list-group-item"> 
-            <div class="checkbox">
-                <label><input type="checkbox">Display to all users</label>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success active">
+                    <input type="radio" autocomplete="off" checked>Display to all users
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio"  autocomplete="off">Keep private
+                </label>
             </div>
         </li>
-        <li class="list-group-item">
-
-        </li>
-
-
     </ul>
 
 </div>
