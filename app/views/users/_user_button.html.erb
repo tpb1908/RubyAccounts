@@ -10,6 +10,7 @@
         function getUsersOnline() {
             $.getJSON('sessions_controller/users_online.json', function(data) {
                 $('#users_online').text(data.count);
+                console.log("Users online " + data.count);
             setTimeout(getUsersOnline, 30000);
             }); 
         }

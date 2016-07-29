@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get "sessions_controller/users_online", to: 'sessions#users_online'
 
+  post 'sessions/pulse', to: "sessions#pulse"
+
   get '/tests/new', to: 'word#new'
 
   root 'static_pages#home'
