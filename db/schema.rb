@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727171056) do
+ActiveRecord::Schema.define(version: 20160729190645) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -36,15 +36,16 @@ ActiveRecord::Schema.define(version: 20160727171056) do
 
   create_table "word_sets", force: :cascade do |t|
     t.text     "words"
-    t.datetime "created_at",   null: false
+    t.datetime "created_at",                       null: false
     t.datetime "last_update"
     t.boolean  "public"
     t.boolean  "uses_special"
     t.text     "name"
-    t.datetime "updated_at",   null: false
+    t.datetime "updated_at",                       null: false
     t.integer  "user_id"
     t.integer  "cpm"
     t.string   "language"
+    t.boolean  "should_randomise", default: false
     t.index ["user_id"], name: "index_word_sets_on_user_id"
   end
 
