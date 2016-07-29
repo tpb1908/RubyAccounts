@@ -1,6 +1,7 @@
 //TODO- Load the words before the page loads
-
+console.log("Word controller loaded");
 $(document).on('turbolinks:load', function() {
+    console.log("Turbolinks load fired");
     if(document.getElementById('input') !== null) {
     var words = [
         "the", "name", "of", "very", "to", "through", "and", "just", "a",
