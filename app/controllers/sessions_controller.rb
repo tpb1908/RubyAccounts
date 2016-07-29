@@ -5,7 +5,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-    puts params[:session]
     user = User.find_by("email = ? OR username = ? ", params[:session][:identifier].downcase, params[:session][:identifier].downcase)
   	if user && user.authenticate(params[:session][:password])
         if user.activated?  
