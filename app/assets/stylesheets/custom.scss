@@ -96,8 +96,13 @@ p {
     display: inline-block;
     padding-left: 0.2em;
     padding-right: 0.2em;
-    /* emulate spaces between words */ 
-}
+    /* emulate spaces between words */
+  } 
+  #word_container> span.current {
+    position: absolute;
+  
+  }
+
 
 /* footer */
 

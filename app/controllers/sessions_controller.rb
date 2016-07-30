@@ -40,13 +40,10 @@ class SessionsController < ApplicationController
 
   def self.count_users
     online = User.where('updated_at > ?', DateTime.now - 15.minutes)
-    puts 'Users online is ' + online.count.to_s
     @@users_online = online.count
   end
 
   def users_online
-    puts 'Get call'
-    puts @@users_online
     render json:{count: @@users_online.to_s +  " user".pluralize(@@users_online) + " online"}
   end
 
