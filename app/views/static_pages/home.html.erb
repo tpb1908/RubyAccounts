@@ -34,14 +34,6 @@
     </div>
     <%= render '/word/word_test' %>
     <%= javascript_include_tag "sessions.js" %>
-    <script>
-
-        $.getJSON('word_controller/get.json', {set:"default"}, function(data) {
-            console.log("Getting JSON");
-            console.log(data);
-        });
-
-    </script>
 </div>
 
 

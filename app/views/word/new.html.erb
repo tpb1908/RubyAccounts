@@ -15,7 +15,7 @@
             <span class="label label-default label-pill pull-xs-right" id="character_count">0</span> <br>
             Word count
             <span class="label label-default label-pill pull-xs-right" id="word_count">0</span> <br>
-            Average word lenth
+            Average word length
             <span class="label label-default label-pill pull-xs-right" id="word_length">0</span> <br>
             Standard word count
             <span class="label label-default label-pill pull-xs-right" id="standard_word_count">0</span> <br>
@@ -24,13 +24,14 @@
             Special character count
             <span class="label label-default label-pill pull-xs-right" id="special_count">0</span> <br>
 
-            <button class="btn btn-primary" data-toggle="collapse" data-target="#character_explanation" id="explanation_button">How are these values calculated?</button>
+            <button class="btn btn-info" data-toggle="collapse" data-target="#character_explanation" id="explanation_button">How are these values calculated?</button>
             <div id="character_explanation" class="collapse">
                 <%= render 'character_value_explanation' %>
             </div>
         </li>
-        <li class="list-group-item" id="words">
+        <li class="list-group-item">
             Word Frequency
+            <p id="words"></p>
         </li>
         <li class="list-group-item"> 
             <div class="btn-group" data-toggle="buttons">

@@ -91,10 +91,6 @@ function analyse() {
 	document.getElementById('special_count').innerHTML = special_count;
 }
 
-function computeKeyStrokes(string) {
-
-}
-
 function commonWords(words) {
 	var freqMap = {};
 	var totalLength = 0;
@@ -109,13 +105,13 @@ function commonWords(words) {
 			length++;
 		}
 	});
-	document.getElementById('word_length').innerHTML = Math.round((totalLength/length) * 100)/100
-	var out = "Word frequency<br>";
+	document.getElementById('word_length').innerHTML =  length === 0 ? 0 : Math.round((totalLength/length) * 100)/100
+	var out = "\n";
 	var values = Object.keys(freqMap).map(function(v) { return {word:v, count:freqMap[v]} });
 	values = values.sort(function(a, b) { return b.count - a.count});
 	values.forEach(function(v) {
 		out += v.word + " : " + v.count + ", ";
 	})
-	document.getElementById('words').innerHTML = out;
+	$('#words').text(out);
 }
 
