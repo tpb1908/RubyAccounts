@@ -13,7 +13,7 @@ module SessionsHelper
 	def current_user
         if (user_id = session[:user_id]) #A session exists
             @current_user ||= User.find_by(id: user_id)
-            @current_user.poke
+            @current_user.touch
         elsif (user_id = cookies.signed[:user_id])  #A cookie exists
             user = User.find_by(id: user_id)
             if user && user.authenticated?(:remember, cookies[:remember_token])
