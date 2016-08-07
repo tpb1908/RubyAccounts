@@ -25,10 +25,10 @@ class SessionsController < ApplicationController
   end
 
   def pulse
-    puts 'Pulse method called'
     if @user
       @user.poke
     end
+    head :ok
   end
 
   def destroy
