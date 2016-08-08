@@ -11,21 +11,44 @@
     </div>
     <ul class="list-group" id="new_test">
         <li class="list-group-item">
-            Character count
-            <span class="label label-default label-pill pull-xs-right" id="character_count">0</span> <br>
-            Word count
-            <span class="label label-default label-pill pull-xs-right" id="word_count">0</span> <br>
-            Standard word count
-            <span class="label label-default label-pill pull-xs-right" id="standard_word_count">0</span> <br>
-            Keypress count
-            <span class="label label-default label-pill pull-xs-right" id="keypress_count">0</span> <br>
-            Average word length
-            <span class="label label-default label-pill pull-xs-right" id="word_length">0</span> <br>
-            Average word keys
-            <span class="label label-default label-pill pull-xs-right" id="word_keypresses">0</span> <br>
-            Special character count
-            <span class="label label-default label-pill pull-xs-right" id="special_count">0</span> <br>
-
+            <table>
+                <tr>
+                    <td>Character count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="character_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Word count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="word_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Character count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="character_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Word count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="word_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Standard word count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="standard_word_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Keypress count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="keypress_count">0</span></td>
+                </tr>
+                <tr>
+                    <td>Average word length</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="word_length">0</span></td>
+                </tr>
+                <tr>
+                    <td>Average word keypresses</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="word_keypresses">0</span></td>
+                </tr>
+                <tr>
+                    <td>Special character count</td>
+                    <td><span class="label label-default label-pill pull-xs-right" id="special_count">0</span></td>
+                </tr>
+            </table>
             <button class="btn btn-info" data-toggle="collapse" data-target="#character_explanation" id="explanation_button">How are these values calculated?</button>
             <div id="character_explanation" class="collapse">
                 <%= render 'character_value_explanation' %>

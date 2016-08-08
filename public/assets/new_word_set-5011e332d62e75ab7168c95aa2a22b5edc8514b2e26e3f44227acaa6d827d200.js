@@ -188,3 +188,4 @@ function charValue(char) {
 	var vietnamese2 = char.match(/[ăâáàạảãđéèẻẽẹêíìỉĩịôơóòỏõọưúùủũụýỳỷỹỵ]/);
 	var vietnamese3 = char.match(/[ắằặẳẵấầậẩẫếềểễệốồổỗộớờởỡợứừửữự]/);
 */
+;
