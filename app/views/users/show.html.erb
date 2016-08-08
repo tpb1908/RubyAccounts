@@ -5,7 +5,25 @@
       <h1>
         <%= gravatar_for @user %>
         <%= @user.username %>
+        <% if @user.admin? %>
+        	<br><b>Admin</b>
+        	<% if @user.owner? %>
+        	<br><b>Owner</b>
+        	<% end %>
+        <% end %>
       </h1>
     </section>
   </aside>
+  <div class="col-md-8">
+  	<% if @word_sets.any? %> 
+  		<h3>Tests (<%= @word_sets.count %>) </h3>
+  		<%= will_paginate @word_sets %>
+  		<ol class="word_sets">
+  			<% @word_sets.each do |word_set| %> 
+  				<%= render 'word/word_set', word_set: word_set %>
+  			<% end %> 
+  		</ol>
+  		<%= will_paginate @word_sets %>
+  	<% end %>
+  </div>
 </div>

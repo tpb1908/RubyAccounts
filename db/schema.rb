@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160729190645) do
+ActiveRecord::Schema.define(version: 20160808200005) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160729190645) do
     t.text     "words"
     t.datetime "created_at",                       null: false
     t.datetime "last_update"
-    t.boolean  "public"
+    t.boolean  "public",           default: true
     t.boolean  "uses_special"
     t.text     "name"
     t.datetime "updated_at",                       null: false

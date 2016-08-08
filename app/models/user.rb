@@ -97,7 +97,7 @@ class User < ApplicationRecord
 
         def destroy_private_sets
             self.word_sets.where(:public => false).destroy_all
-            self.word_sets.each |n| do n.update_attribute(:user_id, 1) end #Assign the rest to the system user???
+            self.word_sets.each do |n| n.update_attribute(:user_id, 1) end #Assign the rest to the system user???
         end
 
 end

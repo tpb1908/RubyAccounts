@@ -5,6 +5,6 @@ class WordSet < ApplicationRecord
     validates :name, presence: true, length: { maximum: 30}
     serialize :words
         
-
+    #Word set can't be edited after being made public
 
 end
