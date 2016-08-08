@@ -25,16 +25,12 @@ class SessionsController < ApplicationController
   end
 
   def pulse
-    if @user
-      @user.poke
-    end
+    if @user then @user.poke end
     head :ok
   end
 
   def destroy
-    if logged_in?
-      log_out
-    end
+    if logged_in? then log_out end
     redirect_to root_url
   end
 

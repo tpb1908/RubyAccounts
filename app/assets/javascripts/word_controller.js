@@ -1,6 +1,6 @@
 //TODO- Load the words before the page loads
 console.log("Word controller loaded");
-$(document).on('turbolinks:load', function() {
+$(document).one('turbolinks:load', function() {
     console.log("Word controller still working");
     if(document.getElementById('input') !== null) {
     var words = [
