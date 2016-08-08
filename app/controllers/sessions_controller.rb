@@ -4,44 +4,43 @@ class SessionsController < ApplicationController
   def new
   end
 
-  def create
-    user = User.find_by("email = ? OR username = ? ", params[:session][:identifier].downcase, params[:session][:identifier].downcase)
-  	if user && user.authenticate(params[:session][:password])
-        if user.activated?  
-          log_in user
-          params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-          user.touch
-          @user = user
-          redirect_back_or user
+    def create
+        user = User.find_by("email = ? OR username = ? ", params[:session][:identifier].downcase, params[:session][:identifier].downcase)
+  	    if user && user.authenticate(params[:session][:password])
+            if user.activated?  
+                log_in user
+                params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+                user.touch
+                @user = user
+                redirect_back_or user
+            else
+                flash[:warning] = "Account not activated. Check your email for the activation link"
+                redirect_to root_url
+            end
         else
-          flash[:warning] = "Account not activated. Check your email for the activation link"
-          redirect_to root_url
-        end
-        
-  	else
-  		flash.now[:danger] = 'Invalid email/password combination'
-  		render 'new'
-  	end 
-  end
+  		    flash.now[:danger] = 'Invalid email/password combination'
+  		    render 'new'
+  	    end 
+    end
 
-  def pulse
-    if @user then @user.poke end
-    head :ok
-  end
+    def pulse
+        if @user then @user.poke end
+        head :ok
+    end
 
-  def destroy
-    if logged_in? then log_out end
-    redirect_to root_url
-  end
+    def destroy
+        if logged_in? then log_out end
+        redirect_to root_url
+    end
 
-  def self.count_users
-    online = User.where('updated_at > ?', DateTime.now - 15.minutes)
-    @@users_online = online.count
-  end
+    def self.count_users
+        online = User.where('updated_at > ?', DateTime.now - 15.minutes)
+        @@users_online = online.count
+    end
 
-  def users_online
-    render json:{count: @@users_online.to_s +  " user".pluralize(@@users_online) + " online"}
-  end
+    def users_online
+        render json:{count: @@users_online.to_s +  " user".pluralize(@@users_online) + " online"}
+    end
 
 
 end

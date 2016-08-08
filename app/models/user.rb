@@ -1,6 +1,7 @@
 class User < ApplicationRecord
     attr_accessor :remember_token, :activation_token, :reset_token
     before_create :create_activation_digest
+    before_destroy :destroy_private_sets
 	before_save :downcase_email, :check_owner
     validate :unique_username_and_email
 	validates(:name, presence: true, length: { maximum: 50 })
@@ -92,6 +93,11 @@ class User < ApplicationRecord
             if self.owner
                 self.admin = true
             end
+        end
+
+        def destroy_private_sets
+            self.word_sets.where(:public => false).destroy_all
+            self.word_sets.each |n| do n.update_attribute(:user_id, 1) end #Assign the rest to the system user???
         end
 
 end
