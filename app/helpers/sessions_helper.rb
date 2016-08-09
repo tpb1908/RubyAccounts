@@ -11,17 +11,18 @@ module SessionsHelper
     end
 
 	def current_user
-        if (user_id = session[:user_id]) #A session exists
-            @current_user ||= User.find_by(id: user_id)
-            @current_user.touch
-        elsif (user_id = cookies.signed[:user_id])  #A cookie exists
-            user = User.find_by(id: user_id)
-            if user && user.authenticated?(:remember, cookies[:remember_token])
-                log_in user
-                @current_user = user
-                user.poke
-            end
-        end
+        @current_user ||= User.find_by(id: session[:user_id])
+        # if (user_id = session[:user_id]) #A session exists
+        #     @current_user ||= User.find_by(id: user_id)
+        #     @current_user.touch
+        # elsif (user_id = cookies.signed[:user_id])  #A cookie exists
+        #     user = User.find_by(id: user_id)
+        #     if user && user.authenticated?(:remember, cookies[:remember_token])
+        #         log_in user
+        #         @current_user = user
+        #         user.poke
+        #     end
+        # end
   	end
 
   	def logged_in?
@@ -29,6 +30,9 @@ module SessionsHelper
   	end
 
     def current_user?(user)
+        puts 'Correct current user called'
+        puts 'User is ' + user.id.to_s
+        puts 'Current user is ' + current_user.id.to_s
         user == current_user
     end
 
