@@ -280,6 +280,22 @@ input {
   width: 167px;
 }
 
+#settings_collapse {
+
+  label {
+    text-align: right;
+    padding-left: 25px;
+  }
+
+  legend {
+    padding-left: 10px;
+  }
+
+  .col-md-4.control-label {
+    text-align: left;
+  }
+}
+
 
 /*The count pills on the new test page*/
 #new_test {

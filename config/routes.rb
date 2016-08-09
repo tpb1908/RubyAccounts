@@ -7,13 +7,15 @@ Rails.application.routes.draw do
 
   get 'sessions/new'
 
-  get "word_controller/get", to: 'word#get'
+  get "tests/get", to: 'word#get'
 
-  get "sessions_controller/users_online", to: 'sessions#users_online'
+  get "sessions/users_online", to: 'sessions#users_online'
 
   post 'sessions/pulse', to: "sessions#pulse"
 
   get '/tests/new', to: 'word#new'
+
+  get '/tests', to: 'word#index'
 
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'

@@ -16,6 +16,7 @@
                         <li><a>Not English</a></li>
                         <li><a>Also not English</a></li>
                     </ul>
+                    <button class="btn btn-info" type="button"  data-toggle="collapse" data-target="#settings_collapse" aria-expanded="false" aria-controls="settings_collapse">Settings</button>  
                 </div>
             </div>
             <div class="col-xs-6">
@@ -31,9 +32,114 @@
                 <%end%>
             </div>
         </div>
+        <div class="collapse" id="settings_collapse">
+            <div class="panel panel-body">
+                <div class="panel panel-default">
+                    <form class="form-horizontal">
+                        <fieldset>
+                        <legend>Settings</legend>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="radios">Error correction</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="radios-0">
+                              <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+                              All words
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-1">
+                              <input type="radio" name="radios" id="radios-1" value="2">
+                              Previous word
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-2">
+                              <input type="radio" name="radios" id="radios-2" value="3">
+                              None
+                            </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="radios">Input alignment</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="radios-0">
+                              <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+                              Left
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-1">
+                              <input type="radio" name="radios" id="radios-1" value="2">
+                              Center
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-2">
+                              <input type="radio" name="radios" id="radios-2" value="3">
+                              Right
+                            </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="radios">Text layout</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="radios-0">
+                              <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+                              Triple line
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-1">
+                              <input type="radio" name="radios" id="radios-1" value="2">
+                              Single line
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-2">
+                              <input type="radio" name="radios" id="radios-2" value="3">
+                              Single line centered
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-3">
+                              <input type="radio" name="radios" id="radios-3" value="4">
+                              Single word
+                            </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="radios">Highlighting</label>
+                          <div class="col-md-4">
+                          <div class="radio">
+                            <label for="radios-0">
+                              <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+                              Highlight correct word
+                            </label>
+                            </div>
+                          <div class="radio">
+                            <label for="radios-1">
+                              <input type="radio" name="radios" id="radios-1" value="2">
+                              Highlight correct letters
+                            </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <%= render '/word/word_test' %>
-    <%= javascript_include_tag params[:controller] %>
+
+
     <%= javascript_include_tag "sessions.js" %>
 </div>
 
