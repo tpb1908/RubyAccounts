@@ -11,6 +11,7 @@ $gray-medium-light: #eaeaea;
   box-sizing:         border-box;
 }
 
+/*Main content of the site*/
 /* universal */
 
 body {
@@ -167,31 +168,6 @@ aside {
   margin-top: 15px;
 }
 
-#user_button {
-  float: right;
-  p {
-    margin-bottom: 0px;
-  }
-}
-
-#sign_in_up_buttons {
-  float: right;
-  width: 167px;
-}
-
-#test_input {
-  float: left;
-}
-
-#new_test {
-  span {
-    float: left;
-    margin-left: 10px;
-  }
-
-
-}
-
 
 
 /* forms */
@@ -231,22 +207,6 @@ input {
   }
 }
 
-#new_test_settings {
-  .checkbox {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    
-    margin-bottom: 0;
-    font-weight: normal;
-    label {
-      padding-left: 0px;
-    }
-    input {
-      width: 28%;
-    }
-  }
-}
-
 #session_remember_me {
   width: auto;
   margin-left: 0;
@@ -257,7 +217,45 @@ input {
 .users {
   list-style: none;
   margin: 0;
+  /*Remove the webkit padding on the list*/
+  -webkit-padding-start: 0px;
+  .row {
+    padding: 15px;
+  }
+  #delete_button {
+    width: 30%;
+    margin: 0px;
+    margin-top: 10px;
+    float: left
+  }
+  
+  #user {
+   overflow: auto;
+   padding-top: 20px;
+   border-bottom: 1px solid #eaeaea;
+  }
+  /*Queries align details to the right, or below the user name and icon*/
+  @media (max-width: 500px) {
+    #user-details {
+      width: 100%;
+      float: left;
+    }
+    #user_stats {
+      margin-top: 20px;
+      width: 100%;
+      float: left;
+    }
+  }
+  @media (min-width: 500px) {
+    #user_details {
+      float: left;
+    }
+    #user_stats {
+      float: right;
+    }
+  }
 }
+
 
 /* miscellaneous */
 
@@ -267,4 +265,33 @@ input {
   width: 100%;
   margin-top: 45px;
   @include box_sizing;
+}
+
+/*Word test upper right user button*/
+#user_button {
+  float: right;
+  p {
+    margin-bottom: 0px;
+  }
+}
+/*Word test upper right buttons*/
+#sign_in_up_buttons {
+  float: right;
+  width: 167px;
+}
+
+
+/*The count pills on the new test page*/
+#new_test {
+  span {
+    float: left;
+    margin-left: 10px;
+  }
+}
+
+#explanation_button {
+  margin-top: 10px;
+}
+#character_explanation {
+  margin-top: 10px;
 }

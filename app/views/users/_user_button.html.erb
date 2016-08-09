@@ -4,15 +4,18 @@
       <%= link_to user.name, user %>
     </li>
     <p id="users_online"></p>
-
     <script> 
         //TODO- Ensure that this stops when the test is no longer on screen
         function getUsersOnline() {
             $.getJSON('sessions_controller/users_online.json', function(data) {
                 $('#users_online').text(data.count);
                 console.log("Users online " + data.count);
-            setTimeout(getUsersOnline, 30000);
-            }); 
+            });
+            setTimeout(function() {
+                if($('#user_button').length) {
+                    getUsersOnline();
+                }
+            }, 30000);    
         }
         getUsersOnline();
     </script>
