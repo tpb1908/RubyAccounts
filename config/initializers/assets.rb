@@ -11,7 +11,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( word_controller.js )
 Rails.application.config.assets.precompile += %w( new_word_set.js )
-Rails.application.config.assets.precompile += %w( new_word_set.css )
 Rails.application.config.assets.precompile += %w( sessions.js )
 Rails.application.config.assets.precompile += %w( users.js )
 Rails.application.config.assets.precompile += %w( static_pages.js )

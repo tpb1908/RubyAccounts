@@ -8030,38 +8030,39 @@ button.close {
   }
 }
 /* mixins, variables, etc. */
+/*Main content of the site*/
 /* universal */
-/* line 16, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 17, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 body {
   padding-top: 60px;
 }
 
-/* line 20, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 21, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 section {
   overflow: auto;
 }
 
-/* line 24, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 25, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 textarea {
   resize: vertical;
 }
 
-/* line 28, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 29, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .center {
   text-align: center;
 }
-/* line 30, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 31, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .center h1 {
   margin-bottom: 10px;
 }
 
 /* typography */
-/* line 37, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 38, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
 
-/* line 41, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 42, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 h1 {
   font-size: 3em;
   letter-spacing: -2px;
@@ -8069,7 +8070,7 @@ h1 {
   text-align: center;
 }
 
-/* line 48, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 49, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 h2 {
   font-size: 1.2em;
   letter-spacing: -1px;
@@ -8079,19 +8080,19 @@ h2 {
   color: #777777;
 }
 
-/* line 57, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 58, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 p {
   font-size: 1.1em;
   line-height: 1.7em;
 }
 
-/* line 63, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 64, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #header_container div {
   display: inline-block;
 }
 
 /* header */
-/* line 71, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 72, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #logo {
   float: left;
   margin-left: 10px;
@@ -8103,13 +8104,13 @@ p {
   padding-top: 9px;
   font-weight: bold;
 }
-/* line 81, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 82, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #logo:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 87, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 88, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #word_container {
   font-size: 1.5em;
   height: 6.5em;
@@ -8120,7 +8121,7 @@ p {
   overflow: hidden;
 }
 
-/* line 95, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 96, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #word_container > span {
   display: inline-block;
   padding-left: 0.2em;
@@ -8128,59 +8129,64 @@ p {
   /* emulate spaces between words */
 }
 
+/* line 102, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#word_container > span.current {
+  position: absolute;
+}
+
 /* footer */
-/* line 104, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 110, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
   color: #777777;
 }
-/* line 109, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 115, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer a {
   color: #555555;
 }
-/* line 111, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 117, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer a:hover {
   color: #222222;
 }
-/* line 115, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 121, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer small {
   float: left;
 }
-/* line 118, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 124, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer ul {
   float: right;
   list-style: none;
 }
-/* line 121, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 127, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 footer ul li {
   float: left;
   margin-left: 15px;
 }
 
 /* sidebar */
-/* line 131, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 137, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 aside section.user_info {
   margin-top: 20px;
 }
-/* line 134, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 140, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 aside section {
   padding: 10px 0;
   margin-top: 20px;
 }
-/* line 137, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 143, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 aside section:first-child {
   border: 0;
   padding-top: 0;
 }
-/* line 141, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 147, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 aside section span {
   display: block;
   margin-bottom: 3px;
   line-height: 1;
 }
-/* line 146, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 152, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 aside section h1 {
   font-size: 1.4em;
   text-align: left;
@@ -8189,45 +8195,19 @@ aside section h1 {
   margin-top: 0px;
 }
 
-/* line 156, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 162, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .gravatar {
   float: left;
   margin-right: 10px;
 }
 
-/* line 161, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 167, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .gravatar_edit {
   margin-top: 15px;
 }
 
-/* line 165, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#user_button {
-  float: right;
-}
-/* line 167, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#user_button p {
-  margin-bottom: 0px;
-}
-
-/* line 172, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#sign_in_up_buttons {
-  float: right;
-  width: 167px;
-}
-
-/* line 177, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#test_input {
-  float: left;
-}
-
-/* line 182, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#new_test span {
-  position: absolute;
-  left: 15%;
-}
-
 /* forms */
-/* line 193, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 175, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
@@ -8237,95 +8217,95 @@ input, textarea, select, .uneditable-input {
   box-sizing: border-box;
 }
 
-/* line 200, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 182, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 input {
   height: auto !important;
 }
 
-/* line 204, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 186, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #error_explanation {
   color: red;
 }
-/* line 206, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 188, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #error_explanation ul {
   color: red;
   margin: 0 0 30px 0;
 }
 
-/* line 214, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 196, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .field_with_errors .form-control {
   color: #a94442;
 }
 
-/* line 219, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 201, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .checkbox {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 222, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 204, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .checkbox span {
   margin-left: 20px;
   font-weight: normal;
 }
 
-/* line 229, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#new_test_settings .checkbox {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-bottom: 0;
-  font-weight: normal;
-}
-/* line 235, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#new_test_settings .checkbox label {
-  padding-left: 0px;
-}
-/* line 238, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-#new_test_settings .checkbox input {
-  width: 28%;
-}
-
-/* line 244, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 210, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 #session_remember_me {
   width: auto;
   margin-left: 0;
 }
 
 /* Users index */
-/* line 251, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 217, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .users {
   list-style: none;
   margin: 0;
+  /*Remove the webkit padding on the list*/
+  -webkit-padding-start: 0px;
+  /*Queries align details to the right, or below the user name and icon*/
 }
-/* line 255, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users #container {
-  width: 100%;
+/* line 222, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+.users .row {
+  padding: 15px;
 }
-/* line 256, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users #left {
+/* line 225, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+.users #delete_button {
+  width: 30%;
+  margin: 0px;
+  margin-top: 10px;
   float: left;
 }
-/* line 257, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users #right {
-  float: right;
-}
-/* line 258, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users #center {
-  margin: 0;
-}
-/* line 260, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users li {
+/* line 232, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+.users #user {
   overflow: auto;
-  padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
+  padding-top: 20px;
+  border-bottom: 1px solid #eaeaea;
 }
-/* line 264, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
-.users li div {
-  padding: 10px;
-  float: left;
+@media (max-width: 500px) {
+  /* line 239, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+  .users #user-details {
+    width: 100%;
+    float: left;
+  }
+  /* line 243, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+  .users #user_stats {
+    margin-top: 20px;
+    width: 100%;
+    float: left;
+  }
+}
+@media (min-width: 500px) {
+  /* line 250, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+  .users #user_details {
+    float: left;
+  }
+  /* line 253, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+  .users #user_stats {
+    float: right;
+  }
 }
 
 /* miscellaneous */
-/* line 273, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+/* line 262, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
 .debug_dump {
   clear: both;
   float: left;
@@ -8335,17 +8315,39 @@ input {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 6, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/users.scss */
-#user_stats {
-  position: absolute;
-  left: 30%;
+
+/*Word test upper right user button*/
+/* line 271, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#user_button {
+  float: right;
+}
+/* line 273, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#user_button p {
+  margin-bottom: 0px;
 }
 
-/* line 11, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/users.scss */
-#delete_button {
-  width: 30%;
-  margin: 0px;
+/*Word test upper right buttons*/
+/* line 278, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#sign_in_up_buttons {
+  float: right;
+  width: 167px;
+}
+
+/*The count pills on the new test page*/
+/* line 286, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#new_test span {
   float: left;
+  margin-left: 10px;
+}
+
+/* line 292, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#explanation_button {
+  margin-top: 10px;
+}
+
+/* line 295, /home/theo/Documents/workspace/typinganalysis/app/app/assets/stylesheets/custom.scss */
+#character_explanation {
+  margin-top: 10px;
 }
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
