@@ -11,7 +11,7 @@ class WordController < ApplicationController
     end
 
     def new
-            
+
     end
 
     def edit
@@ -23,10 +23,11 @@ class WordController < ApplicationController
     end
 
     def destroy
-        WordSet.find(params[:id]).destroy
-
+        puts params.to_s
+        WordSet.find(params[:word_set]).destroy
+        flash[:success] = "Test deleted"
+        redirect_to :back
     end
-
 
     def get
         #Params-
