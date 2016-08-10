@@ -58,6 +58,20 @@ class UserTest < ActiveSupport::TestCase
   	assert_not duplicate_user.valid?
   end
 
+  test "usernames should be unique" do 
+    duplicate_user = @user.dup
+    duplicate_user.username = @user.username
+    @user.save
+    assert_not duplicate_user.valid?
+  end
+
+  test "usernames should not be the same as emails" do
+    duplicate_user = @user.dup
+    duplicate_user.username = "user@user.com"
+    duplicate_user.email = "user@'user.com"
+    assert_not duplicate_user.valid?
+  end
+
   test "email should be saved as downcase" do
   	@user.email = @user.email.upcase
   	@user.save

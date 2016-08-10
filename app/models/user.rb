@@ -83,7 +83,6 @@ class User < ApplicationRecord
         def unique_username_and_email
             self.errors.add(:username, 'already taken') if User.exists?(email: username)
             self.errors.add(:email, 'already taken') if User.exists?(username: email)
-            puts 'Checking errors '
             self.errors.each do |n|
                 puts n
             end

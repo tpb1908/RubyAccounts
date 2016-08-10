@@ -27,9 +27,6 @@ module SessionsHelper
   	end
 
     def current_user?(user)
-        puts 'Correct current user called'
-        puts 'User is ' + user.id.to_s
-        puts 'Current user is ' + current_user.id.to_s
         user == current_user
     end
 
