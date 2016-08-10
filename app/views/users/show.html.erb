@@ -18,11 +18,11 @@
   	<% if @word_sets.any? %> 
   		<h3>Tests (<%= @word_sets.count %>) </h3>
   		<%= will_paginate @word_sets %>
-  		<ol class="word_sets">
+  		<ul class="word_sets">
   			<% @word_sets.each do |word_set| %> 
   				<%= render 'word/word_set', word_set: word_set, user: @user %>
   			<% end %> 
-  		</ol>
+  		</ul>
   		<%= will_paginate @word_sets %>
   	<% end %>
   </div>

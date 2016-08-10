@@ -20,7 +20,7 @@ class ActionDispatch::IntegrationTest
 
     #Accepts an options has with default options, as hashes return nil for non-extistent keys
     def log_in_as(user, password: 'password', remember_me: '1')
-        post login_path, params: { session: { email: user.email, 
+        post login_path, params: { session: { identifier: user.email, 
                                               password: password,
                                               remember_me: remember_me } }
     end

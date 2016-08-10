@@ -11,11 +11,12 @@ class UsersEditTest < ActionDispatch::IntegrationTest
         get edit_user_path(@user)
         assert_template 'users/edit'
         patch user_path(@user), params: { user: { name: "" ,
+                                                  username: "",  
                                                   email: "foo@invalid",
                                                   password: "foo",
                                                   password_confirmation: "bar" } }
         assert_template 'users/edit' 
-        assert_select "div.alert", text: 'The form contains 4 errors.'                            
+        assert_select "div.alert", text: 'The form contains 5 errors.'                            
     end
 
     # test "duplicate_email" do
