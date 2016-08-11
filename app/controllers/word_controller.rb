@@ -30,17 +30,42 @@ class WordController < ApplicationController
     end
 
     #Support for random text (crypto), text (lorem) name (name), numbers(number) time(time)
+    #TODO- Make sure this can't be abused
     def generate
+    
         length = 500
         if params[:length]
             length = params[:length].to_f
             if length > 10000 then length = 10000 end
             if length < 10 then length = 10 end
         end
-        #35 is the shortest value for sentences which consistently gives at least the correct character count
-        words = Faker::Lorem.sentences(length/35).join(' ')
-        puts words
-        render json:{text: words[0..length-1]}
+        type = params[:type] ? params[:type] : 'L'
+        words = ''
+        case type
+        when 'Lat'
+            #35 is the shortest value for sentences which consistently gives at least the correct character count
+            words = Faker::Lorem.sentences(length/35).join(' ')
+        when 'Ran'
+            while words.length < length do
+                words += Faker::Internet.password(5, 20).to_s + " "
+            end
+        when 'Nam'
+            while words.length < length  do
+                words += Faker::Name.name + " "
+            end
+        when 'Num'
+            while words.length < length do
+                words += (rand(10 ** rand(1..15))).to_s + " "
+                puts 'Length ' + words.length.to_s
+            end
+        when 'Dat'
+            while words.length < length do
+                words += Faker::Date.between(10.years.ago, 10.years.from_now).to_s + " "
+            end
+        else 
+            render json:{text: "Invalid type"}
+        end    
+        render json:{text: words[0..length-1]} 
     end
 
 

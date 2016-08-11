@@ -222,3 +222,4 @@ function trimText() {
 	var vietnamese2 = char.match(/[ăâáàạảãđéèẻẽẹêíìỉĩịôơóòỏõọưúùủũụýỳỷỹỵ]/);
 	var vietnamese3 = char.match(/[ắằặẳẵấầậẩẫếềểễệốồổỗộớờởỡợứừửữự]/);
 */
+;
