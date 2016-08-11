@@ -13,6 +13,7 @@ class User < ApplicationRecord
 	validates(:password, presence: true, length: { minimum: 6 }, allow_nil: true)
 
     has_many :word_sets
+    has_many :tests
 
 	#Hash digest of a given string
 	def User.digest(string)

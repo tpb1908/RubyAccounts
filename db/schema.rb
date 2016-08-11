@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808200005) do
+ActiveRecord::Schema.define(version: 20160811104547) do
+
+  create_table "tests", force: :cascade do |t|
+    t.text     "params"
+    t.integer  "cpm"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "language"
+    t.integer  "user_id"
+    t.index ["user_id", "created_at"], name: "index_tests_on_user_id_and_created_at"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
