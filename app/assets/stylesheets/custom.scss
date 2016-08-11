@@ -60,14 +60,15 @@ p {
   line-height: 1.7em;
 }
 
+
+
+/* header */
+
 #header_container {
   div {
     display: inline-block;
   }
-  
 }
-
-/* header */
 
 #logo {
   float: left;
@@ -85,24 +86,7 @@ p {
   }
 }
 
-#word_container {
-  font-size: 1.5em;
-  height: 6.5em;
-  line-height: 2em;
-  /* hide 3rd line of text */
-  border-radius: 0.25em;
-  position: relative;
-  overflow: hidden; }
-  #word_container> span {
-    display: inline-block;
-    padding-left: 0.2em;
-    padding-right: 0.2em;
-    /* emulate spaces between words */
-  } 
-  #word_container> span.current {
-    position: absolute;
-  
-  }
+
 
 
 /* footer */
@@ -257,17 +241,21 @@ input {
 }
 
 .word_sets {
-    list-style-type: none;
-    #delete_button {
-      width: 20%;
-    }
+  list-style-type: none;
+  #delete_button {
+    width: 20%;
+  }
 }
 
+/*New test page*/
 #new_word_set {
   @media (min-width: 768px) {
     #generate_settings {
       width: 30%;
-      float: left;    
+      float: left;
+      .form-control {
+        border-radius: 0px;   
+      }
     }
     #generate_buttons {
       width: 20%;
@@ -276,53 +264,19 @@ input {
   }
   @media (max-width: 768px) {
     #generate_buttons {
+      padding-top: 4px;
+      /*This sorts out the padding on the left button*/
+      #insert_button {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+      }
       button {
+        margin-left: 0px; /*Resetting the -1 margin left on the leftmost item in button group*/
         width: 50%;
       }
     }
   }
 }
-
-
-/* miscellaneous */
-
-.debug_dump {
-  clear: both;
-  float: left;
-  width: 100%;
-  margin-top: 45px;
-  @include box_sizing;
-}
-
-/*Word test upper right user button*/
-#user_button {
-  float: right;
-  p {
-    margin-bottom: 0px;
-  }
-}
-/*Word test upper right buttons*/
-#sign_in_up_buttons {
-  float: right;
-  width: 167px;
-}
-
-#settings_collapse {
-
-  label {
-    text-align: right;
-    padding-left: 25px;
-  }
-
-  legend {
-    padding-left: 10px;
-  }
-
-  .col-md-4.control-label {
-    text-align: left;
-  }
-}
-
 
 /*The count pills on the new test page*/
 #new_test {
@@ -337,4 +291,67 @@ input {
 }
 #character_explanation {
   margin-top: 10px;
+}
+
+#search {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+
+/*Test input*/
+/*Word test upper right user button*/
+#word_container {
+  font-size: 1.5em;
+  height: 6.5em;
+  line-height: 2em;
+  /* hide 3rd line of text */
+  border-radius: 0.25em;
+  position: relative;
+  overflow: hidden; 
+
+  span {
+    display: inline-block;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+  }
+  span.current {
+    position: absolute;
+  }
+}
+
+#user_button {
+  float: right;
+  p {
+    margin-bottom: 0px;
+  }
+}
+/*Word test upper right buttons*/
+#sign_in_up_buttons {
+  float: right;
+  width: 167px;
+}
+
+#settings_collapse {
+  label {
+    text-align: right;
+    padding-left: 25px;
+  }
+
+  legend {
+    padding-left: 10px;
+  }
+
+  .col-md-4.control-label {
+    text-align: left;
+  }
+}
+
+/* miscellaneous */
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
 }
