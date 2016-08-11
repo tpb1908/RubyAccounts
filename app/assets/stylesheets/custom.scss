@@ -235,7 +235,7 @@ input {
    border-bottom: 1px solid #eaeaea;
   }
   /*Queries align details to the right, or below the user name and icon*/
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     #user-details {
       width: 100%;
       float: left;
@@ -246,7 +246,7 @@ input {
       float: left;
     }
   }
-  @media (min-width: 500px) {
+  @media (min-width: 768px) {
     #user_details {
       float: left;
     }
@@ -261,6 +261,26 @@ input {
     #delete_button {
       width: 20%;
     }
+}
+
+#new_word_set {
+  @media (min-width: 768px) {
+    #generate_settings {
+      width: 30%;
+      float: left;    
+    }
+    #generate_buttons {
+      width: 20%;
+      float: left;
+    }
+  }
+  @media (max-width: 768px) {
+    #generate_buttons {
+      button {
+        width: 50%;
+      }
+    }
+  }
 }
 
 

@@ -2,32 +2,33 @@
 <%= javascript_include_tag 'new_word_set' %>
 <h1>New Test</h1>
 
-<div class="panel panel-default">
+<div class="panel panel-default" id="new_word_set">
     <div class="panel-heading">
         <input type="text" class="form-control" placeholder="Title" maxLength="30" ></input>
     </div>
     
     <div class="panel-body">
-        <textarea class="form-control" rows="10" placeholder="Input your test here" id="words_input" maxlength="10000"></textarea>
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Type of text <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a>Latin text</a></li>
-                        <li><a>Random characters</a></li>
-                        <li><a>Names</a></li>
-                        <li><a>Numbers</a></li>
-                        <li><a>Dates</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="https://github.com/stympy/faker" target="_blank">Made with faker</a></li>
-                    </ul>
+        <textarea class="form-control" rows="6" placeholder="Input your test here" id="words_input" maxlength="10000"></textarea>
+        <div>
+            <div class="input-group" id="generate_settings">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Text<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a>Latin text</a></li>
+                            <li><a>Random characters</a></li>
+                            <li><a>Names</a></li>
+                            <li><a>Numbers</a></li>
+                            <li><a>Dates</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="https://github.com/stympy/faker" target="_blank">Made with faker</a></li>
+                        </ul>
+                </div>
+                <input type="number" min="1" step="1" max="10000" class="form-control" name="length" id="length_input" placeholder="No. of characters">
             </div>
-            <input type="number" min="1" step="1" max="1000" class="form-control" name="length" id="length_input" placeholder="No. of characters">
-            <div class="input-group-btn">
+            <div class="input-group-btn" id="generate_buttons">
                 <button type="button" class="btn btn-default" id="insert_button">Insert</button>
                 <button type="button" class="btn btn-default" id="replace_button">Replace</button>
             </div>
-            
         </div>
     </div>
     <ul class="list-group" id="new_test">
