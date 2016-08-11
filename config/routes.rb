@@ -1,21 +1,5 @@
 Rails.application.routes.draw do
-  get 'password_resets/new'
 
-  get 'password_resets/edit'
-
-  get 'users/new'
-
-  get 'sessions/new'
-
-  get "tests/get", to: 'word#get'
-
-  get "sessions/users_online", to: 'sessions#users_online'
-
-  post 'sessions/pulse', to: "sessions#pulse"
-
-  get '/tests/new', to: 'word#new'
-
-  get '/tests', to: 'word#index'
 
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'
@@ -29,6 +13,16 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   post 'users/delete', to: 'users#delete'
   post 'word/delete', to: 'word#delete'
+  get 'password_resets/new'
+  get 'password_resets/edit'
+  get 'users/new'
+  get 'sessions/new'
+  get 'tests/get', to: 'word#get'
+  get 'sessions/users_online', to: 'sessions#users_online'
+  get '/tests/generate', to: 'word#generate'
+  post 'sessions/pulse', to: 'sessions#pulse'
+  get '/tests/new', to: 'word#new'
+  get '/tests', to: 'word#index'
   resources :users
   resources :word
   resources :account_activations, only: [:edit]

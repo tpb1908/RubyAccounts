@@ -2,7 +2,11 @@ $(document).one('turbolinks:load', function() {
 	$('#words_input').bind('input propertychange',function() {
 		analyse();
 	});
+	$("#insert_button").click(function() { generateText(false) });
+	$("#replace_button").click(function() { generateText(true) });
 });
+
+
 
 //TODO- Character count isn't so simple, we must take into account keys for each word
 //Check if character == character.toUpperCase
@@ -89,9 +93,34 @@ function charValue(char) {
 		return 5;
 	}
 	return 1;
-
 }
 
+function generateText(behaviour) {
+	var length = parseInt($("#length_input").val(), 10);
+	if(length) {
+		$.getJSON('generate.json', { 'length': length }, function(data) {
+	        if(behaviour) {
+	        	$('#words_input').val(data.text);
+	        	trimText();
+	        } else {
+	        	insertText(data.text);
+	        }
+	        analyse();
+	    });
+	}
+}
+
+function insertText(text) {
+	var caretPos = document.getElementById('words_input').selectionStart;
+	console.log("Position " + caretPos);
+	var current = $("#words_input").val();
+	$("#words_input").val(current.substring(0, caretPos) + text + current.substring(caretPos));
+	trimText();
+}
+
+function trimText() {
+	$('#words_input').val($('#words_input').val().substring(0, 10000));
+}
  
 /* Characters
 	Uppercase (2) char.toUpperCase == char
