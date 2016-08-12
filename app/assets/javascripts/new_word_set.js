@@ -73,7 +73,7 @@ function deepAnalysis(parsedWords) {
 	average_keys = 0;	
 	special_count = 0;
 	var word_keys = 0;
-	values.forEach(function(v) {
+	values.slice(0, 50).forEach(function(v) {
 		for(var i = 0; i < v.word.length; i++) {
 			var val = charValue(v.word.charAt(i));
 			if(val > 1) special_count++;
