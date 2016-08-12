@@ -22,6 +22,7 @@ $(document).one('turbolinks:load', function() {
 var parsedWords; 
 var char_count = capital_count = word_count = standard_word_count = special_count = keypress_count = average_word = average_keys = capital_count = special_count = 0;
 var generateType = 'Lat';
+var lastUpdate = -1;
 
 function testTest() {
 	words = parsedWords;
@@ -45,8 +46,11 @@ function analyse() {
 	document.getElementById('keypress_count').innerHTML = keypress_count;
 	document.getElementById('word_length').innerHTML = word_length;
 	document.getElementById('word_keypresses').innerHTML = average_keys;
-
-	testTest();
+	lastUpdate = new Date();
+	setTimeout(function() {
+		if(new Date() - lastUpdate > 400) testTest();
+	}, 500);
+	
 }
 
 function deepAnalysis(parsedWords) {
@@ -73,7 +77,7 @@ function deepAnalysis(parsedWords) {
 	average_keys = 0;	
 	special_count = 0;
 	var word_keys = 0;
-	values.forEach(function(v) {
+	values.slice(0, Math.min(70, values.length)).forEach(function(v) {
 		for(var i = 0; i < v.word.length; i++) {
 			var val = charValue(v.word.charAt(i));
 			if(val > 1) special_count++;
