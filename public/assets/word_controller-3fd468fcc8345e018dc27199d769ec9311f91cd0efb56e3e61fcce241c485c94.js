@@ -213,6 +213,7 @@ $(document).on('turbolinks:load', function() {
     findPage();
     input = document.getElementById("input");
     $("#refresh").click(function() { reset(); });
+    alert('Page is ' + page);
     if(page !== -1) {
         $('#input').keydown(function(e) {
             if(e.which === 229) { //Bullshit for Android Chrome
@@ -229,6 +230,7 @@ $(document).on('turbolinks:load', function() {
         */
         $('#input').keyup(function(e) {
             if(androidChrome) {
+                alert('Calling keyPress');
                 keyPress(e); 
             }
             checkError();
@@ -247,6 +249,7 @@ $(document).on('turbolinks:load', function() {
                     key = input.value.charCodeAt(input.value.length - 1);
                 }
             }
+            alert('Keypress ' + key);
             if(key === 32) { //Space
                 if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
                     input.value = "";

@@ -210,9 +210,11 @@ function findPage() {
 }
 
 $(document).on('turbolinks:load', function() {
+    alert("The script has loaded");
     findPage();
     input = document.getElementById("input");
     $("#refresh").click(function() { reset(); });
+    alert('Page is ' + page);
     if(page !== -1) {
         $('#input').keydown(function(e) {
             if(e.which === 229) { //Bullshit for Android Chrome
@@ -244,7 +246,7 @@ $(document).on('turbolinks:load', function() {
                 if(input.length < lastLength) { // Input length is less, so there was backspace
                      key = 32;
                 } else {
-                    key = input.value.charCodeAt(input.value.length - 1);
+                    key = input.value.charCodeAt(inputVal.length - 1);
                 }
             }
             if(key === 32) { //Space
