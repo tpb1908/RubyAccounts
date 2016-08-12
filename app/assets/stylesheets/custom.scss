@@ -55,6 +55,10 @@ h2 {
   color: $gray-light;
 }
 
+h3 {
+  text-align: center;
+}
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
@@ -240,6 +244,11 @@ input {
   }
 }
 
+#search {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
 .word_sets {
   list-style-type: none;
   #delete_button {
@@ -278,14 +287,6 @@ input {
   }
 }
 
-/*The count pills on the new test page*/
-#new_test {
-  span {
-    float: left;
-    margin-left: 10px;
-  }
-}
-
 #explanation_button {
   margin-top: 10px;
 }
@@ -293,11 +294,13 @@ input {
   margin-top: 10px;
 }
 
-#search {
-  border-bottom-left-radius: 4px;
-  border-top-left-radius: 4px;
+/*The count pills on the new test page*/
+#new_test {
+  span {
+    float: left;
+    margin-left: 10px;
+  }
 }
-
 
 /*Test input*/
 /*Word test upper right user button*/
