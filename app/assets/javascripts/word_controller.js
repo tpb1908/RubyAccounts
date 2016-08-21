@@ -67,6 +67,7 @@ var words = [
 var wordSet = []; //The words being used. The words array should only be pulled down once
 var wordIndex = 0; //The current index
 var input; //The input element
+var lastInput = '';
 var lastKey = -1; //The last key that was pressed. Used when moving backwards
 var lastLength = 0; //The length of the input prioor to the current keypress, used for backspace on Android Chrome
 var nextMovePosition = 0; //The position at which we next move lines
@@ -76,6 +77,7 @@ var typeStack = []; //The stack of words that the user has typed. Used for backt
 var androidChrome = false; //Do we have to make a bunch of stupid checks?
 
 function reset() {
+    wordIndex = 0;
     lastKey = -1;
     lastLength = 0;
     nextMovePosition = 0;
@@ -241,7 +243,7 @@ $(document).on('turbolinks:load', function() {
                 so we get it from the final character of the input, or the change in the input.
             */
             if(key === 229) {
-                if(input.length < lastLength) { // Input length is less, so there was backspace
+                if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
                      key = 32;
                 } else {
                     key = input.value.charCodeAt(input.value.length - 1);
@@ -269,6 +271,7 @@ $(document).on('turbolinks:load', function() {
             }
             lastKey = key;
             lastLength = input.length;
+            lastInput = input.value;
         }
 
         /*Handling resize events*/
