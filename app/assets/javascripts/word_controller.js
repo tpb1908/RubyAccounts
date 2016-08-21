@@ -64,6 +64,8 @@ var words = [
     "bed", "five", "bring", "sing", "sit", "listen", "perhaps", "six",
     "fill", "table", "east", "travel", "weight", "less", "language",
     "morning", "among"];
+    //Error correction, input alignment, text layout, highlighting
+var settings = [0, 0, 0, 0];
 var wordSet = []; //The words being used. The words array should only be pulled down once
 var wordIndex = 0; //The current index
 var input; //The input element
@@ -86,6 +88,19 @@ function reset() {
     typeStack = [];
     addWords();
     input.value = '';
+    setCSS();
+}
+
+function setCSS() {
+    var wordDiv = document.getElementById("word_container");
+    wordDiv.style.fontSize = "1.5em";
+    wordDiv.style.height = "6.5em";
+    wordDiv.style.lineHeight = "2em";
+    wordDiv.style.borderRadius = "0.25em";
+    wordDiv.style.position = "relative";
+    wordDiv.style.overflow = "hidden";
+
+
 }
 
 /*
@@ -216,6 +231,7 @@ $(document).on('turbolinks:load', function() {
     input = document.getElementById("input");
     $("#refresh").click(function() { reset(); });
     if(page !== -1) {
+        setCSS();
         $('#input').keydown(function(e) {
             if(e.which === 229) { //Bullshit for Android Chrome
                 androidChrome = true;
@@ -244,7 +260,7 @@ $(document).on('turbolinks:load', function() {
             */
             if(key === 229) {
                 if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
-                     key = 32;
+                     key = 8;
                 } else {
                     key = input.value.charCodeAt(input.value.length - 1);
                 }
@@ -264,7 +280,7 @@ $(document).on('turbolinks:load', function() {
                 }
             } else if(key === 8) { //Backspace
                 //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && lastKey === 8 && wordIndex > 0) {
+                if(input.value === "" && wordIndex > 0) {
                     e.preventDefault();
                     previousWord();
                 }
