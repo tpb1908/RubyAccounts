@@ -64,9 +64,12 @@ var words = [
     "bed", "five", "bring", "sing", "sit", "listen", "perhaps", "six",
     "fill", "table", "east", "travel", "weight", "less", "language",
     "morning", "among"];
+    //Error correction, input alignment, text layout, highlighting
+var settings = [0, 0, 0, 0];
 var wordSet = []; //The words being used. The words array should only be pulled down once
 var wordIndex = 0; //The current index
 var input; //The input element
+var lastInput = '';
 var lastKey = -1; //The last key that was pressed. Used when moving backwards
 var lastLength = 0; //The length of the input prioor to the current keypress, used for backspace on Android Chrome
 var nextMovePosition = 0; //The position at which we next move lines
@@ -74,8 +77,10 @@ var positionForDeletion = 0; //When we move, all positions prior to this are del
 var endLineQueue = []; //The queue of positions which mark the end of a line
 var typeStack = []; //The stack of words that the user has typed. Used for backtracking, and analysis
 var androidChrome = false; //Do we have to make a bunch of stupid checks?
+var deleting = false;
 
 function reset() {
+    wordIndex = 0;
     lastKey = -1;
     lastLength = 0;
     nextMovePosition = 0;
@@ -84,6 +89,44 @@ function reset() {
     typeStack = [];
     addWords();
     input.value = '';
+    deleting = false;
+}
+
+function setCSS() {
+
+    if(settings[1] === 0) {
+        input.style.textAlign = "left";
+    } else if(settings[1] === 1) {
+        input.style.textAlign = "center";
+    } else if(settings[1] === 2) {
+        input.style.textAlign = "right";
+    }
+
+    var wordDiv = document.getElementById("word_container");
+    wordDiv.style.fontSize = "1.5em";
+    if(settings[2] === 0) {
+        wordDiv.style.height = "6.5em";
+    } else if(settings[2] === 1 || settings[2] === 2) {
+        wordDiv.style.height = "2.2em";
+    } else if(settings[2] === 3) {
+        wordDiv.style.height = "6.5em";
+    }
+    var children = wordDiv.children;
+    for(var i = 0; i < children.length; i++) {
+        children[i].style.paddingLeft = "0.2em";
+        children[i].style.paddingRight = "0.2em";
+        if(settings[2] === 0 || settings[2] === 1 || settings[2] === 2) {
+            children[i].style.display = "inline-block";
+        } else if(settings[2] === 3) { //Single word
+            children[i].style.textAlign = "center";
+            children[i].style.display = "block";
+        }
+    }
+
+    wordDiv.style.lineHeight = "2em";
+    wordDiv.style.borderRadius = "0.25em";
+    wordDiv.style.position = "relative";
+    wordDiv.style.overflow = "hidden";
 }
 
 /*
@@ -105,7 +148,129 @@ function shuffle(array) {
     return array;
 }
 
+function findPage() {
+    if(document.title.indexOf('Home') !== -1) {
+        page = 0;
+    } else if(document.title.indexOf('Create') !== -1) {
+        page = 1;
+    } else {
+        page = -1;
+    }
+}
+
+$(document).on('turbolinks:load', function() {
+    findPage();
+    input = document.getElementById("input");
+    $("#refresh").click(function() { reset(); });
+
+    $("input[name='error_correction']").change(function() {
+        console.log("Error correction " + $(this).val());
+        settings[0] = $(this).val() - 1;
+    });
+    $("input[name='input_alignment']").change(function() {
+        console.log("Input alignment " + $(this).val());
+        settings[1] = $(this).val() - 1;
+    });
+    $("input[name='text_layout']").change(function() {
+        console.log("Text layout " + $(this).val());
+        settings[2] = $(this).val() - 1;
+    });
+    $("input[name='highlighting']").change(function() {ss
+        console.log("highlighting " + $(this).val());
+        settings[3] = $(this).val() - 1;
+    });
+
+
+    if(page !== -1) {
+        $('#input').keydown(function(e) {
+            if(e.which === 229) { //Bullshit for Android Chrome
+                androidChrome = true;
+            } else {
+                keyPress(e);
+            }
+        });
+        /*
+            Many of the checks can't happen until the key has been inserted
+            but if we use onkeyup, it is not fast enough.
+            A mix must be used
+        */
+        $('#input').keyup(function(e) {
+            if(androidChrome) {
+                keyPress(e); 
+            }
+            checkError();
+        });
+
+        function keyPress(e) {
+            var key = e.which;
+            /*
+                If the keycode is 229, we can't get the actual keycode from the event,
+                so we get it from the final character of the input, or the change in the input.
+            */
+            if(key === 229) {
+                if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
+                     key = 8;
+                } else {
+                    key = input.value.charCodeAt(input.value.length - 1);
+                }
+            }
+            if(key === 32) { //Space
+                if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
+                    input.value = "";
+                } else { //Move forward
+                    if(androidChrome) {
+                        //On Anroid Chrome, the event has fired, so we have to remove the space
+                        input.value = input.value.slice(0, -1);
+                    } else {
+                        //On desktop, we can just prevent the space being input
+                        e.preventDefault();
+                    }
+                    nextWord();
+                }
+            } else if(key === 8) { //Backspace
+                if(input.value === "" && wordIndex > 0 && wordIndex > positionForDeletion) {
+                    if(settings[0] !== 1 || (settings[0] === 1 && !deleting)) {
+                        e.preventDefault();
+                        previousWord();
+                    }
+                }
+            }
+            lastKey = key;
+            lastLength = input.length;
+            lastInput = input.value;
+        }
+
+        /*Handling resize events*/
+        //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
+        var rtime;
+        var timeout = false;
+        var delta = 200;
+        var windowWidth = $(window).width();
+        $(window).resize(function() {
+            rtime = new Date();
+            if (timeout === false) {
+                timeout = true;
+                setTimeout(resizeend, delta);
+            }
+        });
+
+        function resizeend() {
+            if (new Date() - rtime < delta) {
+                setTimeout(resizeend, delta);
+            } else {
+                timeout = false;
+                if(windowWidth != $(window).width()) {
+                    computeBoundaries();
+                    windowWidth = $(window).width();
+                }
+            }               
+        }
+        if(page === 0) addWords();
+    }
+});
+
 function addWords() {
+    setCSS();
     if(page == 0) {
         wordSet = shuffle(words);
     } else {
@@ -113,25 +278,31 @@ function addWords() {
     }
     var spans = "";
     for(var i = 0; i < wordSet.length; i++) {
-        spans += "<span num="+i+">" + wordSet[i] + "</span>";
+        spans += "<span num="+i+" class='word'>" + wordSet[i] + "</span>";
     }
     document.getElementById("word_container").innerHTML = spans;
+    setCSS();
     computeBoundaries();
 }
 
 function computeBoundaries() {
     endLineQueue = [];
-    var wordContainer = $("#word_container");
-    var previousTop = 0;
-    for(var i = 0; i < wordSet.length; i++) {
-        var top = wordContainer.find("[num="+i+"]").offset().top;
-        if(top > previousTop) {
-            endLineQueue.push(i-1);
-            previousTop = top;
+    if(settings[2] === 2) {
+        for(var i = 0; i < wordSet.length; i++) endLineQueue[i] = i;
+    } else {
+        var wordContainer = $("#word_container");
+        var previousTop = 0;
+        for(var i = 0; i < wordSet.length; i++) {
+            var top = wordContainer.find("[num="+i+"]").offset().top;
+            if(top > previousTop) {
+                endLineQueue.push(i-1);
+                previousTop = top;
+            }
         }
+        //endLineQueue.shift();
+        if(settings[2] === 1) endLineQueue.shift();
+        console.log("End line values: " + endLineQueue);
     }
-    endLineQueue.shift() //Removing -1
-    console.log("End line values: " + endLineQueue);
     positionForDeletion = endLineQueue.shift();
     nextMovePosition = endLineQueue.shift();
 }
@@ -154,11 +325,9 @@ function checkError() {
     for(var i = 0; i < text.length; i++) {
         if(text.charAt(i) !== required.charAt(i)) {
             $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-            console.log("Setting error due to " + text.charAt(i) + " rather than " + required.charAt(i));
             return;
         }
     }
-    console.log("Setting no error");
     $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
 }
 
@@ -187,118 +356,15 @@ function nextWord() {
             nextMovePosition = endLineQueue.shift();
             positionForDeletion = wordIndex - 1;
         }
+        deleting = false;
     }
 }
 
 function previousWord() {
+    deleting = true;
     $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
-    console.log("Previous word");
     wordIndex--;
     input.value = typeStack.pop();
     checkError();
 }
-
-
-function findPage() {
-    if(document.title.indexOf('Home') !== -1) {
-        page = 0;
-    } else if(document.title.indexOf('Create') !== -1) {
-        page = 1;
-    } else {
-        page = -1;
-    }
-}
-
-$(document).on('turbolinks:load', function() {
-    findPage();
-    input = document.getElementById("input");
-    $("#refresh").click(function() { reset(); });
-    alert('Page is ' + page);
-    if(page !== -1) {
-        $('#input').keydown(function(e) {
-            if(e.which === 229) { //Bullshit for Android Chrome
-                androidChrome = true;
-            } else {
-                keyPress(e);
-            }
-            
-        });
-        /*
-            Many of the checks can't happen until the key has been inserted
-            but if we use onkeyup, it is not fast enough.
-            A mix must be used
-        */
-        $('#input').keyup(function(e) {
-            if(androidChrome) {
-                keyPress(e); 
-            }
-            checkError();
-        });
-
-        function keyPress(e) {
-            var key = e.which;
-            /*
-                If the keycode is 229, we can't get the actual keycode from the event,
-                so we get it from the final character of the input, or the change in the input.
-            */
-            if(key === 229) {
-                if(input.length < lastLength) { // Input length is less, so there was backspace
-                     key = 32;
-                } else {
-                    key = input.value.charCodeAt(inputVal.length - 1);
-                }
-            }
-            alert('Keypress ' + key);
-            if(key === 32) { //Space
-                if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
-                    input.value = "";
-                } else { //Move forward
-                    if(androidChrome) {
-                        //On Anroid Chrome, the event has fired, so we have to remove the space
-                        input.value = input.value.slice(0, -1);
-                    } else {
-                        //On desktop, we can just prevent the space being input
-                        e.preventDefault();
-                    }
-                    nextWord();
-                }
-            } else if(key === 8) { //Backspace
-                //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && lastKey === 8 && wordIndex > 0) {
-                    e.preventDefault();
-                    previousWord();
-                }
-            }
-            lastKey = key;
-            lastLength = input.length;
-        }
-
-        /*Handling resize events*/
-
-        //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
-        var rtime;
-        var timeout = false;
-        var delta = 200;
-        var windowWidth = $(window).width();
-        $(window).resize(function() {
-            rtime = new Date();
-            if (timeout === false) {
-                timeout = true;
-                setTimeout(resizeend, delta);
-            }
-        });
-
-        function resizeend() {
-            if (new Date() - rtime < delta) {
-                setTimeout(resizeend, delta);
-            } else {
-                timeout = false;
-                if(windowWidth != $(window).width()) {
-                    computeBoundaries();
-                    windowWidth = $(window).width();
-                }
-            }               
-        }
-        if(page === 0) addWords();
-    }
-});
+;

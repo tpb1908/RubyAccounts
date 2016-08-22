@@ -228,10 +228,7 @@ $(document).on('turbolinks:load', function() {
                     nextWord();
                 }
             } else if(key === 8) { //Backspace
-                //Problem on triple line as wordIndex is less than deletion for first line
-                console.log("Backspace " + wordIndex + ", " + positionForDeletion + ", " + settings);
                 if(input.value === "" && wordIndex > 0 && wordIndex > positionForDeletion) {
-                    console.log("Settings " + settings[0]);
                     if(settings[0] !== 1 || (settings[0] === 1 && !deleting)) {
                         e.preventDefault();
                         previousWord();
