@@ -99,8 +99,6 @@ function setCSS() {
     wordDiv.style.borderRadius = "0.25em";
     wordDiv.style.position = "relative";
     wordDiv.style.overflow = "hidden";
-
-
 }
 
 /*
@@ -121,6 +119,132 @@ function shuffle(array) {
 
     return array;
 }
+
+
+
+
+function findPage() {
+    if(document.title.indexOf('Home') !== -1) {
+        page = 0;
+    } else if(document.title.indexOf('Create') !== -1) {
+        page = 1;
+    } else {
+        page = -1;
+    }
+}
+
+$(document).on('turbolinks:load', function() {
+    findPage();
+    input = document.getElementById("input");
+    $("#refresh").click(function() { reset(); });
+
+    $("input[name='error_correction']").change(function() {
+        console.log("Error correction " + $(this).val());
+        settings[0] = $(this).val();
+    });
+    $("input[name='input_alignment']").change(function() {
+        console.log("Input alignment " + $(this).val());
+        settings[1] = $(this).val();
+    });
+    $("input[name='text_layout']").change(function() {
+        console.log("Text layout " + $(this).val());
+        settings[2] = $(this).val();
+    });
+    $("input[name='highlighting']").change(function() {
+        console.log("highlighting " + $(this).val());
+        settings[3] = $(this).val();
+    });
+
+
+    if(page !== -1) {
+        setCSS();
+        $('#input').keydown(function(e) {
+            if(e.which === 229) { //Bullshit for Android Chrome
+                androidChrome = true;
+            } else {
+                keyPress(e);
+            }
+            
+        });
+        /*
+            Many of the checks can't happen until the key has been inserted
+            but if we use onkeyup, it is not fast enough.
+            A mix must be used
+        */
+        $('#input').keyup(function(e) {
+            if(androidChrome) {
+                keyPress(e); 
+            }
+            checkError();
+        });
+
+        function keyPress(e) {
+            var key = e.which;
+            /*
+                If the keycode is 229, we can't get the actual keycode from the event,
+                so we get it from the final character of the input, or the change in the input.
+            */
+            if(key === 229) {
+                if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
+                     key = 8;
+                } else {
+                    key = input.value.charCodeAt(input.value.length - 1);
+                }
+            }
+            if(key === 32) { //Space
+                if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
+                    input.value = "";
+                } else { //Move forward
+                    if(androidChrome) {
+                        //On Anroid Chrome, the event has fired, so we have to remove the space
+                        input.value = input.value.slice(0, -1);
+                    } else {
+                        //On desktop, we can just prevent the space being input
+                        e.preventDefault();
+                    }
+                    nextWord();
+                }
+            } else if(key === 8) { //Backspace
+                //TODO- The previous word method should deal with each of the possible layouts
+                if(input.value === "" && wordIndex > 0) {
+                    e.preventDefault();
+                    previousWord();
+                }
+            }
+            lastKey = key;
+            lastLength = input.length;
+            lastInput = input.value;
+        }
+
+        /*Handling resize events*/
+
+        //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
+        var rtime;
+        var timeout = false;
+        var delta = 200;
+        var windowWidth = $(window).width();
+        $(window).resize(function() {
+            rtime = new Date();
+            if (timeout === false) {
+                timeout = true;
+                setTimeout(resizeend, delta);
+            }
+        });
+
+        function resizeend() {
+            if (new Date() - rtime < delta) {
+                setTimeout(resizeend, delta);
+            } else {
+                timeout = false;
+                if(windowWidth != $(window).width()) {
+                    computeBoundaries();
+                    windowWidth = $(window).width();
+                }
+            }               
+        }
+        if(page === 0) addWords();
+    }
+});
 
 function addWords() {
     if(page == 0) {
@@ -214,108 +338,3 @@ function previousWord() {
     input.value = typeStack.pop();
     checkError();
 }
-
-
-function findPage() {
-    if(document.title.indexOf('Home') !== -1) {
-        page = 0;
-    } else if(document.title.indexOf('Create') !== -1) {
-        page = 1;
-    } else {
-        page = -1;
-    }
-}
-
-$(document).on('turbolinks:load', function() {
-    findPage();
-    input = document.getElementById("input");
-    $("#refresh").click(function() { reset(); });
-    if(page !== -1) {
-        setCSS();
-        $('#input').keydown(function(e) {
-            if(e.which === 229) { //Bullshit for Android Chrome
-                androidChrome = true;
-            } else {
-                keyPress(e);
-            }
-            
-        });
-        /*
-            Many of the checks can't happen until the key has been inserted
-            but if we use onkeyup, it is not fast enough.
-            A mix must be used
-        */
-        $('#input').keyup(function(e) {
-            if(androidChrome) {
-                keyPress(e); 
-            }
-            checkError();
-        });
-
-        function keyPress(e) {
-            var key = e.which;
-            /*
-                If the keycode is 229, we can't get the actual keycode from the event,
-                so we get it from the final character of the input, or the change in the input.
-            */
-            if(key === 229) {
-                if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
-                     key = 8;
-                } else {
-                    key = input.value.charCodeAt(input.value.length - 1);
-                }
-            }
-            if(key === 32) { //Space
-                if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
-                    input.value = "";
-                } else { //Move forward
-                    if(androidChrome) {
-                        //On Anroid Chrome, the event has fired, so we have to remove the space
-                        input.value = input.value.slice(0, -1);
-                    } else {
-                        //On desktop, we can just prevent the space being input
-                        e.preventDefault();
-                    }
-                    nextWord();
-                }
-            } else if(key === 8) { //Backspace
-                //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && wordIndex > 0) {
-                    e.preventDefault();
-                    previousWord();
-                }
-            }
-            lastKey = key;
-            lastLength = input.length;
-            lastInput = input.value;
-        }
-
-        /*Handling resize events*/
-
-        //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
-        var rtime;
-        var timeout = false;
-        var delta = 200;
-        var windowWidth = $(window).width();
-        $(window).resize(function() {
-            rtime = new Date();
-            if (timeout === false) {
-                timeout = true;
-                setTimeout(resizeend, delta);
-            }
-        });
-
-        function resizeend() {
-            if (new Date() - rtime < delta) {
-                setTimeout(resizeend, delta);
-            } else {
-                timeout = false;
-                if(windowWidth != $(window).width()) {
-                    computeBoundaries();
-                    windowWidth = $(window).width();
-                }
-            }               
-        }
-        if(page === 0) addWords();
-    }
-});
