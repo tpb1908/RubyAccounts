@@ -88,13 +88,30 @@ function reset() {
     typeStack = [];
     addWords();
     input.value = '';
-    setCSS();
 }
 
 function setCSS() {
     var wordDiv = document.getElementById("word_container");
     wordDiv.style.fontSize = "1.5em";
-    wordDiv.style.height = "6.5em";
+    if(settings[2] === 0) {
+        wordDiv.style.height = "6.5em";
+    } else if(settings[2] === 1 || settings[2] === 2) {
+        wordDiv.style.height = "2.2em";
+    } else if(settings[2] === 3) {
+        wordDiv.style.height = "6.5em";
+    }
+    var children = wordDiv.children;
+    for(var i = 0; i < children.length; i++) {
+        children[i].style.paddingLeft = "0.2em";
+        children[i].style.paddingRight = "0.2em";
+        if(settings[2] === 0 || settings[2] === 1 || settings[2] === 2) {
+            children[i].style.display = "inline-block";
+        } else if(settings[2] === 3) { //Single word
+            children[i].style.textAlign = "center";
+            children[i].style.display = "block";
+        }
+    }
+
     wordDiv.style.lineHeight = "2em";
     wordDiv.style.borderRadius = "0.25em";
     wordDiv.style.position = "relative";
@@ -120,9 +137,6 @@ function shuffle(array) {
     return array;
 }
 
-
-
-
 function findPage() {
     if(document.title.indexOf('Home') !== -1) {
         page = 0;
@@ -140,31 +154,29 @@ $(document).on('turbolinks:load', function() {
 
     $("input[name='error_correction']").change(function() {
         console.log("Error correction " + $(this).val());
-        settings[0] = $(this).val();
+        settings[0] = $(this).val() - 1;
     });
     $("input[name='input_alignment']").change(function() {
         console.log("Input alignment " + $(this).val());
-        settings[1] = $(this).val();
+        settings[1] = $(this).val() - 1;
     });
     $("input[name='text_layout']").change(function() {
         console.log("Text layout " + $(this).val());
-        settings[2] = $(this).val();
+        settings[2] = $(this).val() - 1;
     });
-    $("input[name='highlighting']").change(function() {
+    $("input[name='highlighting']").change(function() {ss
         console.log("highlighting " + $(this).val());
-        settings[3] = $(this).val();
+        settings[3] = $(this).val() - 1;
     });
 
 
     if(page !== -1) {
-        setCSS();
         $('#input').keydown(function(e) {
             if(e.which === 229) { //Bullshit for Android Chrome
                 androidChrome = true;
             } else {
                 keyPress(e);
             }
-            
         });
         /*
             Many of the checks can't happen until the key has been inserted
@@ -206,7 +218,7 @@ $(document).on('turbolinks:load', function() {
                 }
             } else if(key === 8) { //Backspace
                 //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && wordIndex > 0) {
+                if(input.value === "" && wordIndex > 0 && wordIndex >positionForDeletion) {
                     e.preventDefault();
                     previousWord();
                 }
@@ -217,7 +229,6 @@ $(document).on('turbolinks:load', function() {
         }
 
         /*Handling resize events*/
-
         //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
         var rtime;
         var timeout = false;
@@ -247,6 +258,7 @@ $(document).on('turbolinks:load', function() {
 });
 
 function addWords() {
+    setCSS();
     if(page == 0) {
         wordSet = shuffle(words);
     } else {
@@ -254,25 +266,31 @@ function addWords() {
     }
     var spans = "";
     for(var i = 0; i < wordSet.length; i++) {
-        spans += "<span num="+i+">" + wordSet[i] + "</span>";
+        spans += "<span num="+i+" class='word'>" + wordSet[i] + "</span>";
     }
     document.getElementById("word_container").innerHTML = spans;
+    setCSS();
     computeBoundaries();
 }
 
 function computeBoundaries() {
     endLineQueue = [];
-    var wordContainer = $("#word_container");
-    var previousTop = 0;
-    for(var i = 0; i < wordSet.length; i++) {
-        var top = wordContainer.find("[num="+i+"]").offset().top;
-        if(top > previousTop) {
-            endLineQueue.push(i-1);
-            previousTop = top;
+    if(settings[2] === 2) {
+        for(var i = 0; i < wordSet.length; i++) endLineQueue[i] = i;
+    } else {
+        var wordContainer = $("#word_container");
+        var previousTop = 0;
+        for(var i = 0; i < wordSet.length; i++) {
+            var top = wordContainer.find("[num="+i+"]").offset().top;
+            if(top > previousTop) {
+                endLineQueue.push(i-1);
+                previousTop = top;
+            }
         }
+        endLineQueue.shift();
+        if(settings[2] === 1) endLineQueue.shift();
+        console.log("End line values: " + endLineQueue);
     }
-    endLineQueue.shift() //Removing -1
-    console.log("End line values: " + endLineQueue);
     positionForDeletion = endLineQueue.shift();
     nextMovePosition = endLineQueue.shift();
 }
@@ -295,7 +313,6 @@ function checkError() {
     for(var i = 0; i < text.length; i++) {
         if(text.charAt(i) !== required.charAt(i)) {
             $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-            console.log("Setting error due to " + text.charAt(i) + " rather than " + required.charAt(i));
             return;
         }
     }
