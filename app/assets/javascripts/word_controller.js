@@ -77,6 +77,7 @@ var positionForDeletion = 0; //When we move, all positions prior to this are del
 var endLineQueue = []; //The queue of positions which mark the end of a line
 var typeStack = []; //The stack of words that the user has typed. Used for backtracking, and analysis
 var androidChrome = false; //Do we have to make a bunch of stupid checks?
+var deleting = false;
 
 function reset() {
     wordIndex = 0;
@@ -88,9 +89,19 @@ function reset() {
     typeStack = [];
     addWords();
     input.value = '';
+    deleting = false;
 }
 
 function setCSS() {
+
+    if(settings[1] === 0) {
+        input.style.textAlign = "left";
+    } else if(settings[1] === 1) {
+        input.style.textAlign = "center";
+    } else if(settings[1] === 2) {
+        input.style.textAlign = "right";
+    }
+
     var wordDiv = document.getElementById("word_container");
     wordDiv.style.fontSize = "1.5em";
     if(settings[2] === 0) {
@@ -217,10 +228,14 @@ $(document).on('turbolinks:load', function() {
                     nextWord();
                 }
             } else if(key === 8) { //Backspace
-                //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && wordIndex > 0 && wordIndex >positionForDeletion) {
-                    e.preventDefault();
-                    previousWord();
+                //Problem on triple line as wordIndex is less than deletion for first line
+                console.log("Backspace " + wordIndex + ", " + positionForDeletion + ", " + settings);
+                if(input.value === "" && wordIndex > 0 && wordIndex > positionForDeletion) {
+                    console.log("Settings " + settings[0]);
+                    if(settings[0] !== 1 || (settings[0] === 1 && !deleting)) {
+                        e.preventDefault();
+                        previousWord();
+                    }
                 }
             }
             lastKey = key;
@@ -287,7 +302,7 @@ function computeBoundaries() {
                 previousTop = top;
             }
         }
-        endLineQueue.shift();
+        //endLineQueue.shift();
         if(settings[2] === 1) endLineQueue.shift();
         console.log("End line values: " + endLineQueue);
     }
@@ -316,7 +331,6 @@ function checkError() {
             return;
         }
     }
-    console.log("Setting no error");
     $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
 }
 
@@ -345,12 +359,13 @@ function nextWord() {
             nextMovePosition = endLineQueue.shift();
             positionForDeletion = wordIndex - 1;
         }
+        deleting = false;
     }
 }
 
 function previousWord() {
+    deleting = true;
     $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
-    console.log("Previous word");
     wordIndex--;
     input.value = typeStack.pop();
     checkError();
