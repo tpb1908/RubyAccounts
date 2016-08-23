@@ -1,6 +1,15 @@
 $(document).one('turbolinks:load', function() {
-	$('#words_input').bind('input propertychange',function() {
-		analyse();
+	$('#words_input').bind('input propertychange', function() {
+		lastUpdate = new Date();
+		setTimeout(function() {
+			if(document.getElementById('words_input').value.length < 1000) {
+				analyse();
+			}
+			if(new Date() - lastUpdate > 400) {
+				analyse();
+				testTest();
+			}
+		}, 500);
 	});
 	$("#insert_button").click(function() { generateText(false) });
 	$("#replace_button").click(function() { generateText(true) });
@@ -11,14 +20,6 @@ $(document).one('turbolinks:load', function() {
 	});
 });
 
-
-
-//TODO- Character count isn't so simple, we must take into account keys for each word
-//Check if character == character.toUpperCase
-//Run one parse when a set is created / updated
-//In order to find the correct count, we need the language code, and for each language, a list of special characters which require more keypresses
-//See the 10fastfingers FAQ http://10fastfingers.com/faq
-//Try using pstore to store extra values
 var parsedWords; 
 var char_count = capital_count = word_count = standard_word_count = special_count = keypress_count = average_word = average_keys = capital_count = special_count = 0;
 var generateType = 'Lat';
@@ -37,8 +38,6 @@ function analyse() {
 	deepAnalysis(parsedWords);
 	word_count = input.value == "" ? 0 : parsedWords.length;
 	standard_word_count = Math.floor(char_count/5);
-
-		
 	document.getElementById('character_count').innerHTML = char_count;
 	document.getElementById('word_count').innerHTML = word_count;
 	document.getElementById('standard_word_count').innerHTML = standard_word_count;
@@ -46,10 +45,7 @@ function analyse() {
 	document.getElementById('keypress_count').innerHTML = keypress_count;
 	document.getElementById('word_length').innerHTML = word_length;
 	document.getElementById('word_keypresses').innerHTML = average_keys;
-	lastUpdate = new Date();
-	setTimeout(function() {
-		if(new Date() - lastUpdate > 400) testTest();
-	}, 500);
+
 	
 }
 

@@ -69,7 +69,7 @@ var settings = [0, 0, 0, 0];
 var wordSet = []; //The words being used. The words array should only be pulled down once
 var wordIndex = 0; //The current index
 var input; //The input element
-var lastInput = '';
+var lastInput = ''; //Used for backspace on mobile
 var lastKey = -1; //The last key that was pressed. Used when moving backwards
 var lastLength = 0; //The length of the input prioor to the current keypress, used for backspace on Android Chrome
 var nextMovePosition = 0; //The position at which we next move lines
@@ -83,6 +83,7 @@ function reset() {
     wordIndex = 0;
     lastKey = -1;
     lastLength = 0;
+    lastInput = '';
     nextMovePosition = 0;
     positionForDeletion = 0;
     endLineQueue = [];
@@ -299,12 +300,11 @@ function computeBoundaries() {
                 previousTop = top;
             }
         }
-        //endLineQueue.shift();
         if(settings[2] === 1) endLineQueue.shift();
         console.log("End line values: " + endLineQueue);
     }
     positionForDeletion = endLineQueue.shift();
-    nextMovePosition = endLineQueue.shift();
+    nextMovePosition = settings[2] == 1 ? positionForDeletion : endLineQueue.shift();
 }
 
 function trim(string) {
@@ -317,6 +317,17 @@ function trim(string) {
      }
     return string;
 }
+
+
+
+/*
+TODO-
+Set up the error checker to wrap each character in a tag
+Fix single line EOL
+*/
+
+
+
 
 function checkError() {
     var text = input.value;
@@ -345,6 +356,7 @@ function nextWord() {
             $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
             $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
         } else {
+            //Error
             $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
         }
 
@@ -353,6 +365,7 @@ function nextWord() {
         input.value = "";
         if(wordIndex - 1 === nextMovePosition) {
             removeLine();
+            //This needs fixing for single line input
             nextMovePosition = endLineQueue.shift();
             positionForDeletion = wordIndex - 1;
         }
