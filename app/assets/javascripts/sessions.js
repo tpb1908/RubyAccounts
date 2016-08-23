@@ -4,7 +4,7 @@ $(document).mousemove(function(e) {
 });
 function pulse() {
 	if(new Date().getTime() - moveTime < 3e5) {
-		$.post('sessions/pulse', function(data) {});
+		$.post('/pulse', function(data) {});
 	}
 	setTimeout(function() {
 		pulse();

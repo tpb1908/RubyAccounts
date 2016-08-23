@@ -6,13 +6,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    puts current_user
-    puts @user
     if session[:user_id] == @user.id  #Fix this? and add admin support
-        puts 'User is current user'
         @word_sets = @user.word_sets.paginate(page: params[:page])
     else
-        puts 'User is not current user. Showing only public'
         @word_sets = @user.word_sets.where(:public => true).paginate(page: params[:page])
     end
     redirect_to root_url and return unless @user.activated?

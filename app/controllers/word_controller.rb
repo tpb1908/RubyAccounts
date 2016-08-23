@@ -2,15 +2,13 @@ class WordController < ApplicationController
     before_action :logged_in_user , only: [:new, :create, :edit, :destroy]
 
     def create
-        puts params
-        # @wordset = WordSet.new
-        # @wordset.words = params[:words]
-        # @wordset.public = params[:public]
-        # @wordset.name = params[:name]
-        current_user.word_sets.create( {name: params[:name], words: params[:words], public: params[:public]} )
-        #current_user.word_sets.create({ your: "...",  attributes: "...", here: "..."})
-        # current_user.word_sets << @wordset
-        # current_user.save
+        if current_user
+            current_user.word_sets.create( {name: params[:name], words: params[:words], public: params[:public]} )
+            flash[:success] = "Test created"
+            redirect_to current_user
+        else
+            flash[:error] = "There was a problem saving the test"
+        end    
     end
 
     def index
@@ -35,6 +33,11 @@ class WordController < ApplicationController
         WordSet.find(params[:word_set]).destroy
         flash[:success] = "Test deleted"
         redirect_to :back
+    end
+
+    def show
+        
+
     end
 
     #Support for random text (crypto), text (lorem) name (name), numbers(number) time(time)

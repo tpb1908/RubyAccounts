@@ -4,7 +4,7 @@
 		<p><b><%= word_set.name %></b> <%= word_set.public ? "" : "(private)" %></p>
 
 		<p>Created : <%= word_set.created_at.to_formatted_s(:long) %> </p>
-		<p><%=word_set.words.join(" ")%></p>
+		<p><%= truncate(word_set.words.join(" "), :length => 200)%></p>
 	</div>
 
 

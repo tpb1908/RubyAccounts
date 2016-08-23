@@ -22,16 +22,21 @@ $(document).one('turbolinks:load', function() {
 	$("#save_button").click(function() {
 		var title = document.getElementById("title_input").value;
 		var public = document.getElementById("public").className.indexOf("active") !== -1;
-		if(parsedWords.length > 0 && title.length > 0) {
+		if(parsedWords.length > 0 && title) {
 			var data = {name: title, words: parsedWords, public: public};
 			$.post("", data, function(data) {
-				console.log("Result " + data);
 			});
+		} else if(parsedWords.length === 0){
+			showFlash("danger", "You can't have a blank test");
+		} else {
+			showFlash("danger", "You must enter a title for your test");
 		}
 	});
+
+	
 });
 
-var parsedWords; 
+var parsedWords = []; 
 var char_count = capital_count = word_count = standard_word_count = special_count = keypress_count = average_word = average_keys = capital_count = special_count = 0;
 var generateType = 'Lat';
 var lastUpdate = -1;
@@ -121,7 +126,7 @@ function charValue(char) {
 function generateText(behaviour) {
 	var length = parseInt($("#length_input").val(), 10);
 	if(length) {
-		$.getJSON('generate.json', { 'length': length, "type": generateType }, function(data) {
+		$.getJSON('/generate.json', { 'length': length, "type": generateType }, function(data) {
 	        if(behaviour) {
 	        	$('#words_input').val(data.text);
 	        	trimText();
@@ -129,6 +134,7 @@ function generateText(behaviour) {
 	        	insertText(data.text);
 	        }
 	        analyse();
+	        addWords();
 	    });
 	}
 }
