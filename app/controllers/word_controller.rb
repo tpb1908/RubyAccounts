@@ -36,7 +36,6 @@ class WordController < ApplicationController
     end
 
     def show
-        
 
     end
 

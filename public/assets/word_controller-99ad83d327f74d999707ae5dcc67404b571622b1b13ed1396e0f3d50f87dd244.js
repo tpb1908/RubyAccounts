@@ -64,9 +64,12 @@ var words = [
     "bed", "five", "bring", "sing", "sit", "listen", "perhaps", "six",
     "fill", "table", "east", "travel", "weight", "less", "language",
     "morning", "among"];
+    //Error correction, input alignment, text layout, highlighting
+var settings = [0, 0, 0, 0];
 var wordSet = []; //The words being used. The words array should only be pulled down once
 var wordIndex = 0; //The current index
 var input; //The input element
+var lastInput = ''; //Used for backspace on mobile
 var lastKey = -1; //The last key that was pressed. Used when moving backwards
 var lastLength = 0; //The length of the input prioor to the current keypress, used for backspace on Android Chrome
 var nextMovePosition = 0; //The position at which we next move lines
@@ -74,16 +77,57 @@ var positionForDeletion = 0; //When we move, all positions prior to this are del
 var endLineQueue = []; //The queue of positions which mark the end of a line
 var typeStack = []; //The stack of words that the user has typed. Used for backtracking, and analysis
 var androidChrome = false; //Do we have to make a bunch of stupid checks?
+var deleting = false;
 
 function reset() {
+    wordIndex = 0;
     lastKey = -1;
     lastLength = 0;
+    lastInput = '';
     nextMovePosition = 0;
     positionForDeletion = 0;
     endLineQueue = [];
     typeStack = [];
     addWords();
     input.value = '';
+    deleting = false;
+}
+
+function setCSS() {
+
+    if(settings[1] === 0) {
+        input.style.textAlign = "left";
+    } else if(settings[1] === 1) {
+        input.style.textAlign = "center";
+    } else if(settings[1] === 2) {
+        input.style.textAlign = "right";
+    }
+
+    var wordDiv = document.getElementById("word_container");
+    wordDiv.style.fontSize = "1.5em";
+    if(settings[2] === 0) {
+        wordDiv.style.height = "6.5em";
+    } else if(settings[2] === 1 || settings[2] === 2) {
+        wordDiv.style.height = "2.2em";
+    } else if(settings[2] === 3) {
+        wordDiv.style.height = "6.5em";
+    }
+    var children = wordDiv.children;
+    for(var i = 0; i < children.length; i++) {
+        children[i].style.paddingLeft = "0.2em";
+        children[i].style.paddingRight = "0.2em";
+        if(settings[2] === 0 || settings[2] === 1 || settings[2] === 2) {
+            children[i].style.display = "inline-block";
+        } else if(settings[2] === 3) { //Single word
+            children[i].style.textAlign = "center";
+            children[i].style.display = "block";
+        }
+    }
+
+    wordDiv.style.lineHeight = "2em";
+    wordDiv.style.borderRadius = "0.25em";
+    wordDiv.style.position = "relative";
+    wordDiv.style.overflow = "hidden";
 }
 
 /*
@@ -105,100 +149,6 @@ function shuffle(array) {
     return array;
 }
 
-function addWords() {
-    if(page == 0) {
-        wordSet = shuffle(words);
-    } else {
-        wordSet = words;
-    }
-    var spans = "";
-    for(var i = 0; i < wordSet.length; i++) {
-        spans += "<span num="+i+">" + wordSet[i] + "</span>";
-    }
-    document.getElementById("word_container").innerHTML = spans;
-    computeBoundaries();
-}
-
-function computeBoundaries() {
-    endLineQueue = [];
-    var wordContainer = $("#word_container");
-    var previousTop = 0;
-    for(var i = 0; i < wordSet.length; i++) {
-        var top = wordContainer.find("[num="+i+"]").offset().top;
-        if(top > previousTop) {
-            endLineQueue.push(i-1);
-            previousTop = top;
-        }
-    }
-    endLineQueue.shift() //Removing -1
-    console.log("End line values: " + endLineQueue);
-    positionForDeletion = endLineQueue.shift();
-    nextMovePosition = endLineQueue.shift();
-}
-
-function trim(string) {
-    for(var i = string.length-1; i >=0; i++) {
-         if(string.charAt(i) === " ") {
-             string = string.slice(0, i);
-         } else {
-             break;
-         }
-     }
-    return string;
-}
-
-function checkError() {
-    var text = input.value;
-    var required = wordSet[wordIndex];
-    $('#word_container').find("[num="+wordIndex+"]").css('color',"#000000");
-    for(var i = 0; i < text.length; i++) {
-        if(text.charAt(i) !== required.charAt(i)) {
-            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-            console.log("Setting error due to " + text.charAt(i) + " rather than " + required.charAt(i));
-            return;
-        }
-    }
-    console.log("Setting no error");
-    $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
-}
-
-function removeLine() {
-    while($("#word_container").find("[num="+positionForDeletion+"]").length > 0) {
-        $("#word_container").find("[num="+positionForDeletion--+"]").remove();
-    }
-}
-
-function nextWord() {
-    if(input.value !== " ") {
-        typeStack.push(input.value);
-        document.getElementById('output').innerHTML = document.getElementById('output').innerHTML + "<br> " + input.value + " " + input.value.length +  ", " + wordSet[wordIndex] + " " + wordSet[wordIndex].length;
-        if(input.value === wordSet[wordIndex]) {
-            $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
-            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
-        } else {
-            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
-        }
-
-        wordIndex++;
-        lastLength = 0;
-        input.value = "";
-        if(wordIndex - 1 === nextMovePosition) {
-            removeLine();
-            nextMovePosition = endLineQueue.shift();
-            positionForDeletion = wordIndex - 1;
-        }
-    }
-}
-
-function previousWord() {
-    $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
-    console.log("Previous word");
-    wordIndex--;
-    input.value = typeStack.pop();
-    checkError();
-}
-
-
 function findPage() {
     if(document.title.indexOf('Home') !== -1) {
         page = 0;
@@ -213,7 +163,25 @@ $(document).on('turbolinks:load', function() {
     findPage();
     input = document.getElementById("input");
     $("#refresh").click(function() { reset(); });
-    alert('Page is ' + page);
+
+    $("input[name='error_correction']").change(function() {
+        console.log("Error correction " + $(this).val());
+        settings[0] = $(this).val() - 1;
+    });
+    $("input[name='input_alignment']").change(function() {
+        console.log("Input alignment " + $(this).val());
+        settings[1] = $(this).val() - 1;
+    });
+    $("input[name='text_layout']").change(function() {
+        console.log("Text layout " + $(this).val());
+        settings[2] = $(this).val() - 1;
+    });
+    $("input[name='highlighting']").change(function() {ss
+        console.log("highlighting " + $(this).val());
+        settings[3] = $(this).val() - 1;
+    });
+
+
     if(page !== -1) {
         $('#input').keydown(function(e) {
             if(e.which === 229) { //Bullshit for Android Chrome
@@ -221,7 +189,6 @@ $(document).on('turbolinks:load', function() {
             } else {
                 keyPress(e);
             }
-            
         });
         /*
             Many of the checks can't happen until the key has been inserted
@@ -230,7 +197,6 @@ $(document).on('turbolinks:load', function() {
         */
         $('#input').keyup(function(e) {
             if(androidChrome) {
-                alert('Calling keyPress');
                 keyPress(e); 
             }
             checkError();
@@ -243,13 +209,12 @@ $(document).on('turbolinks:load', function() {
                 so we get it from the final character of the input, or the change in the input.
             */
             if(key === 229) {
-                if(input.length < lastLength) { // Input length is less, so there was backspace
-                     key = 32;
+                if(input.length < lastLength || (input.value === '' && lastInput === '')) { // Input length is less, so there was backspace
+                     key = 8;
                 } else {
-                    key = input.value.charCodeAt(inputVal.length - 1);
+                    key = input.value.charCodeAt(input.value.length - 1);
                 }
             }
-            alert('Keypress ' + key);
             if(key === 32) { //Space
                 if(input.value === " ") { //Don't allow skipping with spaces. Make this an option
                     input.value = "";
@@ -264,18 +229,19 @@ $(document).on('turbolinks:load', function() {
                     nextWord();
                 }
             } else if(key === 8) { //Backspace
-                //TODO- The previous word method should deal with each of the possible layouts
-                if(input.value === "" && lastKey === 8 && wordIndex > 0) {
-                    e.preventDefault();
-                    previousWord();
+                if(input.value === "" && wordIndex > 0 && wordIndex > positionForDeletion) {
+                    if(settings[0] !== 1 || (settings[0] === 1 && !deleting)) {
+                        e.preventDefault();
+                        previousWord();
+                    }
                 }
             }
             lastKey = key;
             lastLength = input.length;
+            lastInput = input.value;
         }
 
         /*Handling resize events*/
-
         //Waiting for the screen resize to stop- http://stackoverflow.com/a/5926068/4191572
         var rtime;
         var timeout = false;
@@ -303,3 +269,115 @@ $(document).on('turbolinks:load', function() {
         if(page === 0) addWords();
     }
 });
+
+function addWords() {
+    setCSS();
+    if(page == 0) {
+        wordSet = shuffle(words);
+    } else {
+        wordSet = words;
+    }
+    var spans = "";
+    for(var i = 0; i < wordSet.length; i++) {
+        spans += "<span num="+i+" class='word'>" + wordSet[i] + "</span>";
+    }
+    document.getElementById("word_container").innerHTML = spans;
+    setCSS();
+    computeBoundaries();
+}
+
+function computeBoundaries() {
+    endLineQueue = [];
+    if(settings[2] === 2) {
+        for(var i = 0; i < wordSet.length; i++) endLineQueue[i] = i;
+    } else {
+        var wordContainer = $("#word_container");
+        var previousTop = 0;
+        for(var i = 0; i < wordSet.length; i++) {
+            var top = wordContainer.find("[num="+i+"]").offset().top;
+            if(top > previousTop) {
+                endLineQueue.push(i-1);
+                previousTop = top;
+            }
+        }
+        if(settings[2] === 1) endLineQueue.shift();
+        console.log("End line values: " + endLineQueue);
+    }
+    positionForDeletion = endLineQueue.shift();
+    nextMovePosition = settings[2] == 1 ? positionForDeletion : endLineQueue.shift();
+}
+
+function trim(string) {
+    for(var i = string.length-1; i >=0; i++) {
+         if(string.charAt(i) === " ") {
+             string = string.slice(0, i);
+         } else {
+             break;
+         }
+     }
+    return string;
+}
+
+
+
+/*
+TODO-
+Set up the error checker to wrap each character in a tag
+Fix single line EOL
+*/
+
+
+
+
+function checkError() {
+    var text = input.value;
+    var required = wordSet[wordIndex];
+    $('#word_container').find("[num="+wordIndex+"]").css('color',"#000000");
+    for(var i = 0; i < text.length; i++) {
+        if(text.charAt(i) !== required.charAt(i)) {
+            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
+            return;
+        }
+    }
+    $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#5cb85c");
+}
+
+function removeLine() {
+    while($("#word_container").find("[num="+positionForDeletion+"]").length > 0) {
+        $("#word_container").find("[num="+positionForDeletion--+"]").remove();
+    }
+}
+
+function nextWord() {
+    if(input.value !== " ") {
+        typeStack.push(input.value);
+        document.getElementById('output').innerHTML = document.getElementById('output').innerHTML + "<br> " + input.value + " " + input.value.length +  ", " + wordSet[wordIndex] + " " + wordSet[wordIndex].length;
+        if(input.value === wordSet[wordIndex]) {
+            $("#word_container").find("[num="+wordIndex+"]").css('color',"#5cb85c");
+            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
+        } else {
+            //Error
+            $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#d9534f");
+        }
+
+        wordIndex++;
+        lastLength = 0;
+        input.value = "";
+        if(wordIndex - 1 === nextMovePosition) {
+            removeLine();
+            //This needs fixing for single line input
+            nextMovePosition = endLineQueue.shift();
+            positionForDeletion = wordIndex - 1;
+        }
+        deleting = false;
+    }
+}
+
+function previousWord() {
+    deleting = true;
+    $("#word_container").find("[num="+wordIndex+"]").css('background-color',"#FFFFFF");
+    wordIndex--;
+    input.value = typeStack.pop();
+    checkError();
+}
+;
