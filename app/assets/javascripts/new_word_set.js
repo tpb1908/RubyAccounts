@@ -18,6 +18,17 @@ $(document).one('turbolinks:load', function() {
 		generateType = $(this).text().substring(0,3);
 		console.log("Type " + generateType);
 	});
+
+	$("#save_button").click(function() {
+		var title = document.getElementById("title_input").value;
+		var public = document.getElementById("public").className.indexOf("active") !== -1;
+		if(parsedWords.length > 0 && title.length > 0) {
+			var data = {name: title, words: parsedWords, public: public};
+			$.post("", data, function(data) {
+				console.log("Result " + data);
+			});
+		}
+	});
 });
 
 var parsedWords; 

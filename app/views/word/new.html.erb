@@ -4,7 +4,7 @@
 
 <div class="panel panel-default" id="new_word_set">
     <div class="panel-heading">
-        <input type="text" class="form-control" placeholder="Title" maxLength="30" ></input>
+        <input type="text" class="form-control" placeholder="Title" maxLength="30" id="title_input"></input>
     </div>
     
     <div class="panel-body">
@@ -81,17 +81,21 @@
             <p id="words"></p>
         </li>
         <li class="list-group-item"> 
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-success active">
+            <div class="btn-group" data-toggle="buttons" >
+                <label class="btn btn-success active" id="public">
                     <input type="radio" autocomplete="off" checked>Display to all users
                 </label>
                 <label class="btn btn-primary">
                     <input type="radio"  autocomplete="off">Keep private
                 </label>
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox" id="should_randomise"></label>
-            </div>
+        </li>
+
+        <li class="list-group-item">
+            <button class="btn btn-primary" id="save_button">
+                Save
+            </button>
+
         </li>
     </ul>
 

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'sessions/users_online', to: 'sessions#users_online'
   get '/tests/generate', to: 'word#generate'
   post 'sessions/pulse', to: 'sessions#pulse'
+  post '/tests/new', to: 'word#create'
   get '/tests/new', to: 'word#new'
   get '/tests', to: 'word#index'
   resources :users

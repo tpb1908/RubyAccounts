@@ -1,10 +1,10 @@
 <li id="word_set-<%=word_set.id%>">
 	
 	<div id="test_details">
-		<p><b><%= word_set.name %></b> (<%= word_set.public ? "" : "private" %>)</p>
+		<p><b><%= word_set.name %></b> <%= word_set.public ? "" : "(private)" %></p>
 
 		<p>Created : <%= word_set.created_at.to_formatted_s(:long) %> </p>
-		<p><%=word_set.words%></p>
+		<p><%=word_set.words.join(" ")%></p>
 	</div>
 
 

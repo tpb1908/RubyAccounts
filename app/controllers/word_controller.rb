@@ -2,7 +2,15 @@ class WordController < ApplicationController
     before_action :logged_in_user , only: [:new, :create, :edit, :destroy]
 
     def create
-        @wordset = WordSet.new
+        puts params
+        # @wordset = WordSet.new
+        # @wordset.words = params[:words]
+        # @wordset.public = params[:public]
+        # @wordset.name = params[:name]
+        current_user.word_sets.create( {name: params[:name], words: params[:words], public: params[:public]} )
+        #current_user.word_sets.create({ your: "...",  attributes: "...", here: "..."})
+        # current_user.word_sets << @wordset
+        # current_user.save
     end
 
     def index
