@@ -20,6 +20,8 @@ module SessionsHelper
                 @current_user = user
             end
         end
+        puts 'Logged in called'
+        puts @current_user
   	end
 
   	def logged_in?
@@ -37,7 +39,7 @@ module SessionsHelper
     end
 
     def forget(user)
-        user.forget
+        if user then user.forget end
         cookies.delete(:user_id)
         cookies.delete(:remember_token)
     end
