@@ -15,6 +15,7 @@ class User < ApplicationRecord
     has_many :word_sets
     has_many :tests
 
+    serialize :logins
 	#Hash digest of a given string
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost

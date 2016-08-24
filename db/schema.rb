@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160811104547) do
+ActiveRecord::Schema.define(version: 20160824174227) do
 
   create_table "tests", force: :cascade do |t|
     t.text     "params"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160811104547) do
     t.boolean  "owner",                default: false
     t.integer  "average_standard_wpm", default: 0
     t.integer  "standard_tests_taken", default: 0
+    t.string   "logins"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

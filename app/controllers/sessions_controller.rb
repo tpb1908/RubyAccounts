@@ -3,24 +3,36 @@ class SessionsController < ApplicationController
   @@users_online = 0
   def new
   end
-
+  #Fix formatting
     def create
         user = User.find_by("email = ? OR username = ? ", params[:session][:identifier].downcase, params[:session][:identifier].downcase)
-  	    if user && user.authenticate(params[:session][:password])
+  	    if user
+          if user.authenticate(params[:session][:password])
             if user.activated?  
+              if check_login_count user 
                 log_in user
                 params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-                user.touch
+                user.logins.clear
+                user.save
                 @user = user
                 redirect_back_or user
+              else
+                flash.now[:danger] = "Too many login attempts. Try again in 15 minutes"
+              end
             else
-                flash[:warning] = "Account not activated. Check your email for the activation link"
-                redirect_to root_url
-            end
+              flash[:warning] = "Account not activated. Check your email for the activation link"
+              redirect_to root_url
+            end 
+          else
+            user.logins.push( (Time.now.to_f*1000).to_i )
+            user.save
+            flash.now[:danger] = 'Invalid email/password combination. You have ' + [0,(10-user.logins.count)].max.to_s + ' further attempts in the next 15 minutes' 
+            render 'new'  
+          end
         else
-  		    flash.now[:danger] = 'Invalid email/password combination'
-  		    render 'new'
-  	    end 
+          flash.now[:danger] = 'Invalid email/password combination'
+          render 'new'  
+        end
     end
 
     def pulse
@@ -40,6 +52,14 @@ class SessionsController < ApplicationController
 
     def users_online
         render json:{count: @@users_online.to_s +  " user".pluralize(@@users_online) + " online"}
+    end
+
+    def check_login_count user
+      puts 'User logins ' + user.logins.to_s 
+      user.logins.delete_if { |n| n < (Time.now.to_f*1000).to_i - 450000 }
+      user.save
+      puts 'User logins ' + user.logins.to_s
+      user.logins.count < 10
     end
 
 
