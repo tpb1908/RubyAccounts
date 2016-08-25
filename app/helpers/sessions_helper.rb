@@ -20,8 +20,6 @@ module SessionsHelper
                 @current_user = user
             end
         end
-        puts 'Logged in called'
-        puts @current_user
   	end
 
   	def logged_in?

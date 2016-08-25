@@ -55,10 +55,8 @@ class SessionsController < ApplicationController
     end
 
     def check_login_count user
-      puts 'User logins ' + user.logins.to_s 
       user.logins.delete_if { |n| n < (Time.now.to_f*1000).to_i - 450000 }
       user.save
-      puts 'User logins ' + user.logins.to_s
       user.logins.count < 10
     end
 
